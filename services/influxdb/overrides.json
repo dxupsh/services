@@ -1,0 +1,22 @@
+{
+  "service": "influxdb",
+  "settings": {
+    "user": {
+      "value": "dxup",
+      "rationale": "Scratch images use a single embedded user"
+    },
+    "group": {
+      "value": "dxup",
+      "rationale": "Scratch images use a single embedded user"
+    },
+    "extraConfig": {
+      "value": {
+        "http": {
+          "bind-address": "0.0.0.0:8086",
+          "auth-enabled": true
+        }
+      },
+      "rationale": "No bind address or auth exposed in settings"
+    }
+  }
+}

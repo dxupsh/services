@@ -1,0 +1,13 @@
+{
+  "service": "rabbitmq",
+  "settings": {
+    "listenAddress": {
+      "value": "",
+      "rationale": "Must be reachable from other containers (empty = all interfaces)"
+    },
+    "managementPlugin.enable": {
+      "value": true,
+      "rationale": "Web UI needed for administration in Swarm"
+    }
+  }
+}

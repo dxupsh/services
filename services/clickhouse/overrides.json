@@ -1,0 +1,15 @@
+{
+  "service": "clickhouse",
+  "settings": {
+    "serverConfig": {
+      "value": {
+        "listen_host": "0.0.0.0"
+      },
+      "rationale": "No explicit bind address; must be reachable from other containers"
+    },
+    "usersConfig": {
+      "value": null,
+      "rationale": "No authentication by default; must configure password-authenticated users"
+    }
+  }
+}

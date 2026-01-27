@@ -1,0 +1,98 @@
+{
+  "service": "opensearch",
+  "metadata": {
+    "extractedAt": "2026-01-27T09:30:42Z",
+    "nixpkgsRevision": "25.11pre-git"
+  },
+  "package": {
+    "name": "opensearch",
+    "version": "2.19.2"
+  },
+  "settings": {
+    "dataDir": {
+      "default": "/var/lib/opensearch",
+      "description": "Data directory for OpenSearch. If you change this, you need to\nmanually create the directory. You also need to create the\n`opensearch` user and group, or change\n[](#opt-services.opensearch.user) and\n[](#opt-services.opensearch.group) to existing ones with\naccess to the directory.\n",
+      "enum": null,
+      "example": null,
+      "readOnly": false,
+      "required": false,
+      "type": "string"
+    },
+    "enable": {
+      "default": false,
+      "description": "Whether to enable OpenSearch.",
+      "enum": null,
+      "example": true,
+      "readOnly": false,
+      "required": false,
+      "type": "boolean"
+    },
+    "extraCmdLineOptions": {
+      "default": [],
+      "description": "Extra command line options for the OpenSearch launcher.",
+      "enum": null,
+      "example": null,
+      "readOnly": false,
+      "required": false,
+      "type": "list"
+    },
+    "extraJavaOptions": {
+      "default": [],
+      "description": "Extra command line options for Java.",
+      "enum": null,
+      "example": [
+        "-Djava.net.preferIPv4Stack=true"
+      ],
+      "readOnly": false,
+      "required": false,
+      "type": "list"
+    },
+    "group": {
+      "default": "dxup",
+      "description": "The group OpenSearch runs as. Should be left at default unless\nyou have very specific needs.\n",
+      "enum": null,
+      "example": null,
+      "readOnly": false,
+      "required": false,
+      "type": "string"
+    },
+    "logging": {
+      "default": "logger.action.name = org.opensearch.action\nlogger.action.level = info\n\nappender.console.type = Console\nappender.console.name = console\nappender.console.layout.type = PatternLayout\nappender.console.layout.pattern = [%d{ISO8601}][%-5p][%-25c{1.}] %marker%m%n\n\nrootLogger.level = info\nrootLogger.appenderRef.console.ref = console\n",
+      "description": "opensearch logging configuration.",
+      "enum": null,
+      "example": null,
+      "readOnly": false,
+      "required": false,
+      "type": "string"
+    },
+    "restartIfChanged": {
+      "default": true,
+      "description": "Automatically restart the service on config change.\nThis can be set to false to defer restarts on a server or cluster.\nPlease consider the security implications of inadvertently running an older version,\nand the possibility of unexpected behavior caused by inconsistent versions across a cluster when disabling this option.\n",
+      "enum": null,
+      "example": null,
+      "readOnly": false,
+      "required": false,
+      "type": "boolean"
+    },
+    "settings": {
+      "default": {
+        "network.host": "0.0.0.0"
+      },
+      "description": "OpenSearch configuration.\n",
+      "enum": null,
+      "example": null,
+      "readOnly": false,
+      "required": false,
+      "type": "map"
+    },
+    "user": {
+      "default": "dxup",
+      "description": "The user OpenSearch runs as. Should be left at default unless\nyou have very specific needs.\n",
+      "enum": null,
+      "example": null,
+      "readOnly": false,
+      "required": false,
+      "type": "string"
+    }
+  }
+}

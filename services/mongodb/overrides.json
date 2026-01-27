@@ -1,0 +1,25 @@
+{
+  "service": "mongodb",
+  "settings": {
+    "user": {
+      "value": "dxup",
+      "rationale": "Scratch images use a single embedded user"
+    },
+    "bind_ip": {
+      "value": "0.0.0.0",
+      "rationale": "Must be reachable from other containers"
+    },
+    "enableAuth": {
+      "value": true,
+      "rationale": "Auth disabled by default; mandatory for production"
+    },
+    "initialRootPasswordFile": {
+      "value": "/run/secrets/mongodb-root-password",
+      "rationale": "Required when auth is enabled"
+    },
+    "pidFile": {
+      "value": "",
+      "rationale": "Unnecessary in single-process container"
+    }
+  }
+}

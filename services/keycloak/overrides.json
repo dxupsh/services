@@ -1,0 +1,29 @@
+{
+  "service": "keycloak",
+  "settings": {
+    "database.useSSL": {
+      "value": true,
+      "rationale": "DB connections unencrypted by default"
+    },
+    "database.passwordFile": {
+      "value": "/run/secrets/keycloak-db-password",
+      "rationale": "Must point to Docker secret"
+    },
+    "database.host": {
+      "value": "postgres",
+      "rationale": "Database runs in separate container (Swarm service name)"
+    },
+    "database.createLocally": {
+      "value": false,
+      "rationale": "Database is a separate Swarm service"
+    },
+    "sslCertificate": {
+      "value": "/run/secrets/keycloak-tls-cert",
+      "rationale": "Enable TLS for production"
+    },
+    "sslCertificateKey": {
+      "value": "/run/secrets/keycloak-tls-key",
+      "rationale": "Enable TLS for production"
+    }
+  }
+}

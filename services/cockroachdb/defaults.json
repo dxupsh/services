@@ -1,0 +1,150 @@
+{
+  "service": "cockroachdb",
+  "metadata": {
+    "nixpkgsRevision": "25.11pre-git"
+  },
+  "package": {
+    "name": "cockroachdb",
+    "version": "23.1.14"
+  },
+  "settings": {
+    "cache": {
+      "default": "25%",
+      "description": "The total size for caches.\n\nThis can be a percentage, expressed with a fraction sign or as a\ndecimal-point number, or any bytes-based unit. For example,\n`\"25%\"`, `\"0.25\"` both represent\n25% of the available system memory. The values\n`\"1000000000\"` and `\"1GB\"` both\nrepresent 1 gigabyte of memory.\n\n",
+      "enum": null,
+      "example": null,
+      "readOnly": false,
+      "required": false,
+      "type": "string"
+    },
+    "certsDir": {
+      "default": null,
+      "description": "The path to the certificate directory.",
+      "enum": null,
+      "example": null,
+      "readOnly": false,
+      "required": false,
+      "type": "any"
+    },
+    "enable": {
+      "default": false,
+      "description": "Whether to enable CockroachDB Server.",
+      "enum": null,
+      "example": true,
+      "readOnly": false,
+      "required": false,
+      "type": "boolean"
+    },
+    "extraArgs": {
+      "default": [],
+      "description": "Extra CLI arguments passed to {command}`cockroach start`.\nFor the full list of supported arguments, check <https://www.cockroachlabs.com/docs/stable/cockroach-start.html#flags>\n",
+      "enum": null,
+      "example": [
+        "--advertise-addr",
+        "[fe80::f6f2:::]"
+      ],
+      "readOnly": false,
+      "required": false,
+      "type": "list"
+    },
+    "group": {
+      "default": "cockroachdb",
+      "description": "User account under which CockroachDB runs",
+      "enum": null,
+      "example": null,
+      "readOnly": false,
+      "required": false,
+      "type": "string"
+    },
+    "http.address": {
+      "default": "localhost",
+      "description": "Address to bind to for http-based Admin UI",
+      "enum": null,
+      "example": null,
+      "readOnly": false,
+      "required": false,
+      "type": "string"
+    },
+    "http.port": {
+      "default": 8080,
+      "description": "Port to bind to for http-based Admin UI",
+      "enum": null,
+      "example": null,
+      "readOnly": false,
+      "required": false,
+      "type": "integer"
+    },
+    "insecure": {
+      "default": false,
+      "description": "Run in insecure mode.",
+      "enum": null,
+      "example": null,
+      "readOnly": false,
+      "required": false,
+      "type": "boolean"
+    },
+    "join": {
+      "default": null,
+      "description": "The addresses for connecting the node to a cluster.",
+      "enum": null,
+      "example": null,
+      "readOnly": false,
+      "required": false,
+      "type": "string"
+    },
+    "listen.address": {
+      "default": "localhost",
+      "description": "Address to bind to for intra-cluster communication",
+      "enum": null,
+      "example": null,
+      "readOnly": false,
+      "required": false,
+      "type": "string"
+    },
+    "listen.port": {
+      "default": 26257,
+      "description": "Port to bind to for intra-cluster communication",
+      "enum": null,
+      "example": null,
+      "readOnly": false,
+      "required": false,
+      "type": "integer"
+    },
+    "locality": {
+      "default": null,
+      "description": "An ordered, comma-separated list of key-value pairs that describe the\ntopography of the machine. Topography might include country,\ndatacenter or rack designations. Data is automatically replicated to\nmaximize diversities of each tier. The order of tiers is used to\ndetermine the priority of the diversity, so the more inclusive\nlocalities like country should come before less inclusive localities\nlike datacenter.  The tiers and order must be the same on all nodes.\nIncluding more tiers is better than including fewer. For example:\n\n```\n    country=us,region=us-west,datacenter=us-west-1b,rack=12\n    country=ca,region=ca-east,datacenter=ca-east-2,rack=4\n\n    planet=earth,province=manitoba,colo=secondary,power=3\n```\n",
+      "enum": null,
+      "example": null,
+      "readOnly": false,
+      "required": false,
+      "type": "string"
+    },
+    "maxSqlMemory": {
+      "default": "25%",
+      "description": "The maximum in-memory storage capacity available to store temporary\ndata for SQL queries.\n\nThis can be a percentage, expressed with a fraction sign or as a\ndecimal-point number, or any bytes-based unit. For example,\n`\"25%\"`, `\"0.25\"` both represent\n25% of the available system memory. The values\n`\"1000000000\"` and `\"1GB\"` both\nrepresent 1 gigabyte of memory.\n",
+      "enum": null,
+      "example": null,
+      "readOnly": false,
+      "required": false,
+      "type": "string"
+    },
+    "openPorts": {
+      "default": false,
+      "description": "Open firewall ports for cluster communication by default",
+      "enum": null,
+      "example": null,
+      "readOnly": false,
+      "required": false,
+      "type": "boolean"
+    },
+    "user": {
+      "default": "cockroachdb",
+      "description": "User account under which CockroachDB runs",
+      "enum": null,
+      "example": null,
+      "readOnly": false,
+      "required": false,
+      "type": "string"
+    }
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "service": "couchdb",
+  "settings": {
+    "user": {
+      "value": "dxup",
+      "rationale": "Scratch images use a single embedded user"
+    },
+    "group": {
+      "value": "dxup",
+      "rationale": "Scratch images use a single embedded user"
+    },
+    "bindAddress": {
+      "value": "0.0.0.0",
+      "rationale": "Must be reachable from other containers"
+    },
+    "adminPass": {
+      "value": null,
+      "rationale": "'Admin party' mode by default (no auth); set password via extraConfigFiles"
+    },
+    "extraConfigFiles": {
+      "value": ["/run/secrets/couchdb-admin.ini"],
+      "rationale": "Set admin password outside Nix store"
+    },
+    "logFile": {
+      "value": "",
+      "rationale": "Docker captures stdout; configure stdout logging via extraConfig"
+    }
+  }
+}

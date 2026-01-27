@@ -1,0 +1,25 @@
+{
+  "service": "vault",
+  "settings": {
+    "address": {
+      "value": "0.0.0.0:8200",
+      "rationale": "Must be reachable from other containers"
+    },
+    "storageBackend": {
+      "value": "raft",
+      "rationale": "In-memory loses all data on restart"
+    },
+    "storagePath": {
+      "value": "/var/lib/vault",
+      "rationale": "Required for file/raft backend (Docker volume mount)"
+    },
+    "tlsCertFile": {
+      "value": "/run/secrets/vault-tls-cert",
+      "rationale": "TLS disabled by default"
+    },
+    "tlsKeyFile": {
+      "value": "/run/secrets/vault-tls-key",
+      "rationale": "TLS disabled by default"
+    }
+  }
+}

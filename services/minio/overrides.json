@@ -1,0 +1,9 @@
+{
+  "service": "minio",
+  "settings": {
+    "rootCredentialsFile": {
+      "value": "/run/secrets/minio-root-credentials",
+      "rationale": "Default credentials are well-known (minioadmin:minioadmin)"
+    }
+  }
+}

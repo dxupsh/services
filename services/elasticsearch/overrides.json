@@ -1,0 +1,13 @@
+{
+  "service": "elasticsearch",
+  "settings": {
+    "listenAddress": {
+      "value": "0.0.0.0",
+      "rationale": "Must be reachable from other containers"
+    },
+    "cluster_name": {
+      "value": null,
+      "rationale": "Default 'elasticsearch' risks accidental cross-cluster joins; set a unique name"
+    }
+  }
+}

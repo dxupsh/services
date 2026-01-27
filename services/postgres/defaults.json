@@ -1,0 +1,159 @@
+{
+  "service": "postgres",
+  "metadata": {
+    "nixpkgsRevision": "25.11pre-git"
+  },
+  "package": null,
+  "settings": {
+    "authentication": {
+      "default": "",
+      "description": "Defines how users authenticate themselves to the server. See the\n[PostgreSQL documentation for pg_hba.conf](https://www.postgresql.org/docs/current/auth-pg-hba-conf.html)\nfor details on the expected format of this option. By default,\npeer based authentication will be used for users connecting\nvia the Unix socket, and md5 password authentication will be\nused for users connecting via TCP. Any added rules will be\ninserted above the default rules. If you'd like to replace the\ndefault rules entirely, you can use `lib.mkForce` in your\nmodule.\n",
+      "enum": null,
+      "example": null,
+      "readOnly": false,
+      "required": false,
+      "type": "string"
+    },
+    "checkConfig": {
+      "default": true,
+      "description": "Check the syntax of the configuration file at compile time",
+      "enum": null,
+      "example": null,
+      "readOnly": false,
+      "required": false,
+      "type": "boolean"
+    },
+    "dataDir": {
+      "default": null,
+      "description": "The data directory for PostgreSQL. If left as the default value\nthis directory will automatically be created before the PostgreSQL server starts, otherwise\nthe sysadmin is responsible for ensuring the directory exists with appropriate ownership\nand permissions.\n",
+      "enum": null,
+      "example": "/var/lib/postgresql/15",
+      "readOnly": false,
+      "required": true,
+      "type": "string"
+    },
+    "enable": {
+      "default": false,
+      "description": "Whether to enable ‹name› in postgresql's syscall filter.",
+      "enum": null,
+      "example": true,
+      "readOnly": false,
+      "required": false,
+      "type": "boolean"
+    },
+    "enableJIT": {
+      "default": false,
+      "description": "Whether to enable JIT support.",
+      "enum": null,
+      "example": true,
+      "readOnly": false,
+      "required": false,
+      "type": "boolean"
+    },
+    "enableTCPIP": {
+      "default": false,
+      "description": "Whether PostgreSQL should listen on all network interfaces.\nIf disabled, the database can only be accessed via its Unix\ndomain socket or via TCP connections to localhost.\n",
+      "enum": null,
+      "example": null,
+      "readOnly": false,
+      "required": false,
+      "type": "boolean"
+    },
+    "ensureDatabases": {
+      "default": [],
+      "description": "Ensures that the specified databases exist.\nThis option will never delete existing databases, especially not when the value of this\noption is changed. This means that databases created once through this option or\notherwise have to be removed manually.\n",
+      "enum": null,
+      "example": [
+        "gitea",
+        "nextcloud"
+      ],
+      "readOnly": false,
+      "required": false,
+      "type": "list"
+    },
+    "ensureUsers": {
+      "default": [],
+      "description": "Ensures that the specified users exist.\nThe PostgreSQL users will be identified using peer authentication. This authenticates the Unix user with the\nsame name only, and that without the need for a password.\nThis option will never delete existing users or remove DB ownership of databases\nonce granted with `ensureDBOwnership = true;`. This means that this must be\ncleaned up manually when changing after changing the config in here.\n",
+      "enum": null,
+      "example": "[\n  {\n    name = \"nextcloud\";\n  }\n  {\n    name = \"superuser\";\n    ensureDBOwnership = true;\n  }\n]\n",
+      "readOnly": false,
+      "required": false,
+      "type": "list"
+    },
+    "extensions": {
+      "default": null,
+      "description": "List of PostgreSQL extensions to install.\n",
+      "enum": null,
+      "example": "ps: with ps; [ postgis pg_repack ]",
+      "readOnly": false,
+      "required": false,
+      "type": "any"
+    },
+    "finalPackage": {
+      "default": null,
+      "description": "The postgresql package that will effectively be used in the system.\nIt consists of the base package with plugins applied to it.\n",
+      "enum": null,
+      "example": null,
+      "readOnly": true,
+      "required": false,
+      "type": "string"
+    },
+    "identMap": {
+      "default": "",
+      "description": "Defines the mapping from system users to database users.\n\nSee the [auth doc](https://postgresql.org/docs/current/auth-username-maps.html).\n\nThere is a default map \"postgres\" which is used for local peer authentication\nas the postgres superuser role.\nFor example, to allow the root user to login as the postgres superuser, add:\n\n```\npostgres root postgres\n```\n",
+      "enum": null,
+      "example": "map-name-0 system-username-0 database-username-0\nmap-name-1 system-username-1 database-username-1\n",
+      "readOnly": false,
+      "required": false,
+      "type": "string"
+    },
+    "initdbArgs": {
+      "default": [],
+      "description": "Additional arguments passed to `initdb` during data dir\ninitialisation.\n",
+      "enum": null,
+      "example": [
+        "--data-checksums",
+        "--allow-group-access"
+      ],
+      "readOnly": false,
+      "required": false,
+      "type": "list"
+    },
+    "initialScript": {
+      "default": null,
+      "description": "A file containing SQL statements to execute on first startup.\n",
+      "enum": null,
+      "example": "pkgs.writeText \"init-sql-script\" ''\n  alter user postgres with password 'myPassword';\n'';",
+      "readOnly": false,
+      "required": false,
+      "type": "any"
+    },
+    "priority": {
+      "default": 1500,
+      "description": "Set the priority of the system call filter setting. Later declarations\noverride earlier ones, e.g.\n\n```ini\n[Service]\nSystemCallFilter=~read write\nSystemCallFilter=write\n```\n\nresults in a service where _only_ `read` is not allowed.\n\nThe ordering in the unit file is controlled by this option: the higher\nthe number, the later it will be added to the filterset.\n\nBy default, depending on the prefix a priority is assigned: usually, call-groups\n(starting with `@`) are used to allow/deny a larger set of syscalls and later\non single syscalls are configured for exceptions. Hence, syscall groups\nand negative groups are placed before individual syscalls by default.\n",
+      "enum": null,
+      "example": null,
+      "readOnly": false,
+      "required": false,
+      "type": "integer"
+    },
+    "settings": {
+      "default": {},
+      "description": "PostgreSQL configuration. Refer to\n<https://www.postgresql.org/docs/current/config-setting.html#CONFIG-SETTING-CONFIGURATION-FILE>\nfor an overview of `postgresql.conf`.\n\n::: {.note}\nString values will automatically be enclosed in single quotes. Single quotes will be\nescaped with two single quotes as described by the upstream documentation linked above.\n:::\n",
+      "enum": null,
+      "example": "{\n  log_connections = true;\n  log_statement = \"all\";\n  logging_collector = true;\n  log_disconnections = true;\n  log_destination = lib.mkForce \"syslog\";\n}\n",
+      "readOnly": false,
+      "required": false,
+      "type": "map"
+    },
+    "superUser": {
+      "default": "postgres",
+      "description": "PostgreSQL superuser account to use for various operations. Internal since changing\nthis value would lead to breakage while setting up databases.\n",
+      "enum": null,
+      "example": null,
+      "readOnly": true,
+      "required": false,
+      "type": "string"
+    }
+  }
+}

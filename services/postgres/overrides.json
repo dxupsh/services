@@ -1,0 +1,23 @@
+{
+  "service": "postgres",
+  "settings": {
+    "enableTCPIP": {
+      "value": true,
+      "rationale": "Unix sockets don't work cross-container"
+    },
+    "dataDir": {
+      "value": "/var/lib/postgresql",
+      "rationale": "Docker volume mount point"
+    },
+    "authentication": {
+      "value": "host all all all scram-sha-256",
+      "rationale": "peer auth is meaningless in containers; md5 is weak"
+    },
+    "settings": {
+      "value": {
+        "listen_addresses": "*"
+      },
+      "rationale": "Combined with enableTCPIP for full network access"
+    }
+  }
+}

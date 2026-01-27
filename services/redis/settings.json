@@ -1,0 +1,243 @@
+{
+  "service": "redis",
+  "metadata": {
+    "extractedAt": "2026-01-27T09:30:42Z",
+    "nixpkgsRevision": "25.11pre-git"
+  },
+  "package": {
+    "name": "redis",
+    "version": "8.2.3"
+  },
+  "settings": {
+    "appendFsync": {
+      "default": "everysec",
+      "description": "How often to fsync the append-only log, options: no, always, everysec.",
+      "enum": null,
+      "example": null,
+      "readOnly": false,
+      "required": false,
+      "type": "string"
+    },
+    "appendOnly": {
+      "default": true,
+      "description": "By default data is only periodically persisted to disk, enable this option to use an append-only file for improved persistence.",
+      "enum": null,
+      "example": null,
+      "readOnly": false,
+      "required": false,
+      "type": "boolean"
+    },
+    "bind": {
+      "default": "0.0.0.0",
+      "description": "The IP interface to bind to.\n`null` means \"all interfaces\".\n",
+      "enum": null,
+      "example": "192.0.2.1",
+      "readOnly": false,
+      "required": false,
+      "type": "string"
+    },
+    "databases": {
+      "default": 16,
+      "description": "Set the number of databases.",
+      "enum": null,
+      "example": null,
+      "readOnly": false,
+      "required": false,
+      "type": "integer"
+    },
+    "enable": {
+      "default": false,
+      "description": "Whether to enable Redis server.",
+      "enum": null,
+      "example": true,
+      "readOnly": false,
+      "required": false,
+      "type": "boolean"
+    },
+    "extraParams": {
+      "default": [],
+      "description": "Extra parameters to append to redis-server invocation",
+      "enum": null,
+      "example": [
+        "--sentinel"
+      ],
+      "readOnly": false,
+      "required": false,
+      "type": "list"
+    },
+    "group": {
+      "default": "dxup",
+      "description": "Group account under which this instance of redis-server runs.\n\n::: {.note}\nIf left as the default value this group will automatically be\ncreated on system activation, otherwise you are responsible for\nensuring the group exists before the redis service starts.\n",
+      "enum": null,
+      "example": null,
+      "readOnly": false,
+      "required": false,
+      "type": "string"
+    },
+    "logLevel": {
+      "default": "notice",
+      "description": "Specify the server verbosity level, options: debug, verbose, notice, warning.",
+      "enum": null,
+      "example": "debug",
+      "readOnly": false,
+      "required": false,
+      "type": "string"
+    },
+    "logfile": {
+      "default": "",
+      "description": "Specify the log file name. Also 'stdout' can be used to force Redis to log on the standard output.",
+      "enum": null,
+      "example": "/var/log/redis.log",
+      "readOnly": false,
+      "required": false,
+      "type": "string"
+    },
+    "masterAuth": {
+      "default": null,
+      "description": "If the master is password protected (using the requirePass configuration)\nit is possible to tell the slave to authenticate before starting the replication synchronization\nprocess, otherwise the master will refuse the slave request.\n(STORED PLAIN TEXT, WORLD-READABLE IN NIX STORE)",
+      "enum": null,
+      "example": null,
+      "readOnly": false,
+      "required": false,
+      "type": "string"
+    },
+    "maxclients": {
+      "default": 10000,
+      "description": "Set the max number of connected clients at the same time.",
+      "enum": null,
+      "example": null,
+      "readOnly": false,
+      "required": false,
+      "type": "integer"
+    },
+    "openFirewall": {
+      "default": false,
+      "description": "Whether to open ports in the firewall for the server.\n",
+      "enum": null,
+      "example": null,
+      "readOnly": false,
+      "required": false,
+      "type": "boolean"
+    },
+    "port": {
+      "default": 6379,
+      "description": "The TCP port to accept connections.\nIf port 0 is specified Redis will not listen on a TCP socket.\n",
+      "enum": null,
+      "example": null,
+      "readOnly": false,
+      "required": false,
+      "type": "integer"
+    },
+    "requirePass": {
+      "default": null,
+      "description": "Password for database (STORED PLAIN TEXT, WORLD-READABLE IN NIX STORE).\nUse requirePassFile to store it outside of the nix store in a dedicated file.\n",
+      "enum": null,
+      "example": "letmein!",
+      "readOnly": false,
+      "required": false,
+      "type": "string"
+    },
+    "requirePassFile": {
+      "default": "/run/secrets/redis-password",
+      "description": "File with password for the database.",
+      "enum": null,
+      "example": "/run/keys/redis-password",
+      "readOnly": false,
+      "required": false,
+      "type": "any"
+    },
+    "save": {
+      "default": [],
+      "description": "The schedule in which data is persisted to disk, represented as a list of lists where the first element represent the amount of seconds and the second the number of changes.\n\nIf set to the empty list (`[]`) then RDB persistence will be disabled (useful if you are using AOF or don't want any persistence).\n",
+      "enum": null,
+      "example": null,
+      "readOnly": false,
+      "required": false,
+      "type": "list"
+    },
+    "settings": {
+      "default": {},
+      "description": "Redis configuration. Refer to\n<https://redis.io/topics/config>\nfor details on supported values.\n",
+      "enum": null,
+      "example": "{\n  loadmodule = [ \"/path/to/my_module.so\" \"/path/to/other_module.so\" ];\n}\n",
+      "readOnly": false,
+      "required": false,
+      "type": "map"
+    },
+    "slaveOf": {
+      "default": null,
+      "description": "IP and port to which this redis instance acts as a slave.",
+      "enum": null,
+      "example": {
+        "ip": "192.168.1.100",
+        "port": 6379
+      },
+      "readOnly": false,
+      "required": false,
+      "type": "any"
+    },
+    "slowLogLogSlowerThan": {
+      "default": 10000,
+      "description": "Log queries whose execution take longer than X in milliseconds.",
+      "enum": null,
+      "example": 1000,
+      "readOnly": false,
+      "required": false,
+      "type": "integer"
+    },
+    "slowLogMaxLen": {
+      "default": 128,
+      "description": "Maximum number of items to keep in slow log.",
+      "enum": null,
+      "example": null,
+      "readOnly": false,
+      "required": false,
+      "type": "integer"
+    },
+    "syslog": {
+      "default": false,
+      "description": "Enable logging to the system logger.",
+      "enum": null,
+      "example": null,
+      "readOnly": false,
+      "required": false,
+      "type": "boolean"
+    },
+    "unixSocket": {
+      "default": null,
+      "description": "The path to the socket to bind to.",
+      "enum": null,
+      "example": null,
+      "readOnly": false,
+      "required": false,
+      "type": "any"
+    },
+    "unixSocketPerm": {
+      "default": 660,
+      "description": "Change permissions for the socket",
+      "enum": null,
+      "example": 600,
+      "readOnly": false,
+      "required": false,
+      "type": "integer"
+    },
+    "user": {
+      "default": "dxup",
+      "description": "User account under which this instance of redis-server runs.\n\n::: {.note}\nIf left as the default value this user will automatically be\ncreated on system activation, otherwise you are responsible for\nensuring the user exists before the redis service starts.\n",
+      "enum": null,
+      "example": null,
+      "readOnly": false,
+      "required": false,
+      "type": "string"
+    },
+    "vmOverCommit": {
+      "default": true,
+      "description": "Whether to enable set `vm.overcommit_memory` sysctl to 1\n(Suggested for Background Saving: <https://redis.io/docs/get-started/faq/>)\n.",
+      "enum": null,
+      "example": true,
+      "readOnly": false,
+      "required": false,
+      "type": "boolean"
+    }
+  }
+}

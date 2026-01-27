@@ -1,0 +1,90 @@
+{
+  "service": "nats",
+  "metadata": {
+    "nixpkgsRevision": "25.11pre-git"
+  },
+  "package": null,
+  "settings": {
+    "dataDir": {
+      "default": "/var/lib/nats",
+      "description": "The NATS data directory. Only used if JetStream is enabled, for\nstoring stream metadata and messages.\n\nIf left as the default value this directory will automatically be\ncreated before the NATS server starts, otherwise the sysadmin is\nresponsible for ensuring the directory exists with appropriate\nownership and permissions.\n",
+      "enum": null,
+      "example": null,
+      "readOnly": false,
+      "required": false,
+      "type": "string"
+    },
+    "enable": {
+      "default": false,
+      "description": "Whether to enable NATS messaging system.",
+      "enum": null,
+      "example": true,
+      "readOnly": false,
+      "required": false,
+      "type": "boolean"
+    },
+    "group": {
+      "default": "nats",
+      "description": "Group under which NATS runs.",
+      "enum": null,
+      "example": null,
+      "readOnly": false,
+      "required": false,
+      "type": "string"
+    },
+    "jetstream": {
+      "default": false,
+      "description": "Whether to enable JetStream.",
+      "enum": null,
+      "example": true,
+      "readOnly": false,
+      "required": false,
+      "type": "boolean"
+    },
+    "port": {
+      "default": 4222,
+      "description": "Port on which to listen.\n",
+      "enum": null,
+      "example": null,
+      "readOnly": false,
+      "required": false,
+      "type": "integer"
+    },
+    "serverName": {
+      "default": "nats",
+      "description": "Name of the NATS server, must be unique if clustered.\n",
+      "enum": null,
+      "example": "n1-c3",
+      "readOnly": false,
+      "required": false,
+      "type": "string"
+    },
+    "settings": {
+      "default": {},
+      "description": "Declarative NATS configuration. See the\n[\nNATS documentation](https://docs.nats.io/nats-server/configuration) for a list of options.\n",
+      "enum": null,
+      "example": "{\n  jetstream = {\n    max_mem = \"1G\";\n    max_file = \"10G\";\n  };\n};\n",
+      "readOnly": false,
+      "required": false,
+      "type": "any"
+    },
+    "user": {
+      "default": "nats",
+      "description": "User account under which NATS runs.",
+      "enum": null,
+      "example": null,
+      "readOnly": false,
+      "required": false,
+      "type": "string"
+    },
+    "validateConfig": {
+      "default": true,
+      "description": "If true, validate nats config at build time. When the config can't\nbe checked during build time, for example when it includes other\nfiles, disable this option.\n",
+      "enum": null,
+      "example": null,
+      "readOnly": false,
+      "required": false,
+      "type": "boolean"
+    }
+  }
+}

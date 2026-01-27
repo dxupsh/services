@@ -1,0 +1,82 @@
+{
+  "service": "memcached",
+  "metadata": {
+    "extractedAt": "2026-01-27T09:30:42Z",
+    "nixpkgsRevision": "25.11pre-git"
+  },
+  "package": null,
+  "settings": {
+    "enable": {
+      "default": false,
+      "description": "Whether to enable Memcached.",
+      "enum": null,
+      "example": true,
+      "readOnly": false,
+      "required": false,
+      "type": "boolean"
+    },
+    "enableUnixSocket": {
+      "default": false,
+      "description": "Whether to enable Unix Domain Socket at /run/memcached/memcached.sock instead of listening on an IP address and port. The `listen` and `port` options are ignored.",
+      "enum": null,
+      "example": true,
+      "readOnly": false,
+      "required": false,
+      "type": "boolean"
+    },
+    "extraOptions": {
+      "default": [],
+      "description": "A list of extra options that will be added as a suffix when running memcached.",
+      "enum": null,
+      "example": null,
+      "readOnly": false,
+      "required": false,
+      "type": "list"
+    },
+    "listen": {
+      "default": "0.0.0.0",
+      "description": "The IP address to bind to.",
+      "enum": null,
+      "example": null,
+      "readOnly": false,
+      "required": false,
+      "type": "string"
+    },
+    "maxConnections": {
+      "default": 1024,
+      "description": "The maximum number of simultaneous connections.",
+      "enum": null,
+      "example": null,
+      "readOnly": false,
+      "required": false,
+      "type": "integer"
+    },
+    "maxMemory": {
+      "default": 64,
+      "description": "The maximum amount of memory to use for storage, in MiB (1024×1024 bytes).",
+      "enum": null,
+      "example": null,
+      "readOnly": false,
+      "required": false,
+      "type": "integer"
+    },
+    "port": {
+      "default": 11211,
+      "description": "The port to bind to.",
+      "enum": null,
+      "example": null,
+      "readOnly": false,
+      "required": false,
+      "type": "integer"
+    },
+    "user": {
+      "default": "dxup",
+      "description": "The user to run Memcached as",
+      "enum": null,
+      "example": null,
+      "readOnly": false,
+      "required": false,
+      "type": "string"
+    }
+  }
+}

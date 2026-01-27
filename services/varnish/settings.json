@@ -1,0 +1,76 @@
+{
+  "service": "varnish",
+  "metadata": {
+    "extractedAt": "2026-01-27T09:30:42Z",
+    "nixpkgsRevision": "25.11pre-git"
+  },
+  "package": {
+    "name": "varnish",
+    "version": "7.7.3"
+  },
+  "settings": {
+    "config": {
+      "default": null,
+      "description": "Verbatim default.vcl configuration.\n",
+      "enum": null,
+      "example": null,
+      "readOnly": false,
+      "required": true,
+      "type": "string"
+    },
+    "enable": {
+      "default": false,
+      "description": "Whether to enable Varnish Server.",
+      "enum": null,
+      "example": true,
+      "readOnly": false,
+      "required": false,
+      "type": "boolean"
+    },
+    "enableConfigCheck": {
+      "default": true,
+      "description": "Whether to enable checking the config during build time.",
+      "enum": null,
+      "example": true,
+      "readOnly": false,
+      "required": false,
+      "type": "boolean"
+    },
+    "extraCommandLine": {
+      "default": "",
+      "description": "Command line switches for varnishd (run 'varnishd -?' to get list of options)\n",
+      "enum": null,
+      "example": "-s malloc,256M",
+      "readOnly": false,
+      "required": false,
+      "type": "string"
+    },
+    "extraModules": {
+      "default": [],
+      "description": "Varnish modules (except 'std').\n",
+      "enum": null,
+      "example": "[ pkgs.varnishPackages.geoip ]",
+      "readOnly": false,
+      "required": false,
+      "type": "list"
+    },
+    "http_address": {
+      "default": null,
+      "description": "HTTP listen address and port.\n",
+      "enum": null,
+      "example": null,
+      "readOnly": false,
+      "required": false,
+      "type": "string"
+    },
+    "listen": {
+      "default": [],
+      "description": "Accept for client requests on the specified listen addresses.",
+      "enum": null,
+      "example": null,
+      "readOnly": false,
+      "required": false,
+      "type": "list"
+    }
+  }
+}

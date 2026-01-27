@@ -1,0 +1,29 @@
+{
+  "service": "nginx",
+  "settings": {
+    "user": {
+      "value": "dxup",
+      "rationale": "Scratch images use a single embedded user"
+    },
+    "group": {
+      "value": "dxup",
+      "rationale": "Scratch images use a single embedded user"
+    },
+    "recommendedTlsSettings": {
+      "value": true,
+      "rationale": "Enables modern TLS defaults"
+    },
+    "recommendedProxySettings": {
+      "value": true,
+      "rationale": "Proper proxy headers for Swarm services"
+    },
+    "recommendedGzipSettings": {
+      "value": true,
+      "rationale": "Compression for efficiency"
+    },
+    "recommendedOptimisation": {
+      "value": true,
+      "rationale": "Performance tuning"
+    }
+  }
+}

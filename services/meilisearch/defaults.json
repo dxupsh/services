@@ -1,0 +1,57 @@
+{
+  "service": "meilisearch",
+  "metadata": {
+    "nixpkgsRevision": "25.11pre-git"
+  },
+  "package": {
+    "name": "meilisearch",
+    "version": "1.22.1"
+  },
+  "settings": {
+    "enable": {
+      "default": false,
+      "description": "Whether to enable Meilisearch - a RESTful search API.",
+      "enum": null,
+      "example": true,
+      "readOnly": false,
+      "required": false,
+      "type": "boolean"
+    },
+    "listenAddress": {
+      "default": "localhost",
+      "description": "The IP address that Meilisearch will listen on.\n\nIt can also be a hostname like \"localhost\". If it resolves to an IPv4 and IPv6 address, Meilisearch will listen on both.\n",
+      "enum": null,
+      "example": null,
+      "readOnly": false,
+      "required": false,
+      "type": "string"
+    },
+    "listenPort": {
+      "default": 7700,
+      "description": "The port that Meilisearch will listen on.\n",
+      "enum": null,
+      "example": null,
+      "readOnly": false,
+      "required": false,
+      "type": "integer"
+    },
+    "masterKeyFile": {
+      "default": null,
+      "description": "Path to file which contains the master key.\nBy doing so, all routes will be protected and will require a key to be accessed.\nIf no master key is provided, all routes can be accessed without requiring any key.\n",
+      "enum": null,
+      "example": null,
+      "readOnly": false,
+      "required": false,
+      "type": "any"
+    },
+    "settings": {
+      "default": {},
+      "description": "Configuration settings for Meilisearch.\nLook at the documentation for available options:\nhttps://github.com/meilisearch/meilisearch/blob/main/config.toml\nhttps://www.meilisearch.com/docs/learn/self_hosted/configure_meilisearch_at_launch#all-instance-options\n",
+      "enum": null,
+      "example": null,
+      "readOnly": false,
+      "required": false,
+      "type": "map"
+    }
+  }
+}

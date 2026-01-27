@@ -1,0 +1,147 @@
+{
+  "service": "vault",
+  "metadata": {
+    "extractedAt": "2026-01-27T09:30:42Z",
+    "nixpkgsRevision": "25.11pre-git"
+  },
+  "package": {
+    "name": "vault",
+    "version": "1.21.1"
+  },
+  "settings": {
+    "address": {
+      "default": "0.0.0.0:8200",
+      "description": "The name of the ip interface to listen to",
+      "enum": null,
+      "example": null,
+      "readOnly": false,
+      "required": false,
+      "type": "string"
+    },
+    "dev": {
+      "default": false,
+      "description": "In this mode, Vault runs in-memory and starts unsealed. This option is not meant production but for development and testing i.e. for nixos tests.\n",
+      "enum": null,
+      "example": null,
+      "readOnly": false,
+      "required": false,
+      "type": "boolean"
+    },
+    "devRootTokenID": {
+      "default": null,
+      "description": "Initial root token. This only applies when {option}`services.vault.dev` is true\n",
+      "enum": null,
+      "example": null,
+      "readOnly": false,
+      "required": false,
+      "type": "string"
+    },
+    "enable": {
+      "default": false,
+      "description": "Whether to enable Vault daemon.",
+      "enum": null,
+      "example": true,
+      "readOnly": false,
+      "required": false,
+      "type": "boolean"
+    },
+    "extraConfig": {
+      "default": "",
+      "description": "Extra text appended to {file}`vault.hcl`.",
+      "enum": null,
+      "example": null,
+      "readOnly": false,
+      "required": false,
+      "type": "string"
+    },
+    "extraSettingsPaths": {
+      "default": [],
+      "description": "Configuration files to load besides the immutable one defined by the NixOS module.\nThis can be used to avoid putting credentials in the Nix store, which can be read by any user.\n\nEach path can point to a JSON- or HCL-formatted file, or a directory\nto be scanned for files with `.hcl` or\n`.json` extensions.\n\nTo upload the confidential file with NixOps, use for example:\n\n```\n# https://releases.nixos.org/nixops/latest/manual/manual.html#opt-deployment.keys\ndeployment.keys.\"vault.hcl\" = let db = import ./db-credentials.nix; in {\n  text = ''\n    storage \"postgresql\" {\n      connection_url = \"postgres://${db.username}:${db.password}@host.example.com/exampledb?sslmode=verify-ca\"\n    }\n  '';\n  user = \"vault\";\n};\nservices.vault.extraSettingsPaths = [\"/run/keys/vault.hcl\"];\nservices.vault.storageBackend = \"postgresql\";\nusers.users.vault.extraGroups = [\"keys\"];\n```\n",
+      "enum": null,
+      "example": null,
+      "readOnly": false,
+      "required": false,
+      "type": "list"
+    },
+    "listenerExtraConfig": {
+      "default": "tls_min_version = \"tls12\"\n",
+      "description": "Extra text appended to the listener section.",
+      "enum": null,
+      "example": null,
+      "readOnly": false,
+      "required": false,
+      "type": "string"
+    },
+    "storageBackend": {
+      "default": "raft",
+      "description": "The name of the type of storage backend",
+      "enum": {
+        "values": [
+          "inmem",
+          "file",
+          "consul",
+          "zookeeper",
+          "s3",
+          "azure",
+          "dynamodb",
+          "etcd",
+          "mssql",
+          "mysql",
+          "postgresql",
+          "swift",
+          "gcs",
+          "raft"
+        ]
+      },
+      "example": null,
+      "readOnly": false,
+      "required": false,
+      "type": "string"
+    },
+    "storageConfig": {
+      "default": null,
+      "description": "HCL configuration to insert in the storageBackend section.\n\nConfidential values should not be specified here because this option's\nvalue is written to the Nix store, which is publicly readable.\nProvide credentials and such in a separate file using\n[](#opt-services.vault.extraSettingsPaths).\n",
+      "enum": null,
+      "example": null,
+      "readOnly": false,
+      "required": false,
+      "type": "string"
+    },
+    "storagePath": {
+      "default": "/var/lib/vault",
+      "description": "Data directory for file backend",
+      "enum": null,
+      "example": null,
+      "readOnly": false,
+      "required": false,
+      "type": "any"
+    },
+    "telemetryConfig": {
+      "default": "",
+      "description": "Telemetry configuration",
+      "enum": null,
+      "example": null,
+      "readOnly": false,
+      "required": false,
+      "type": "string"
+    },
+    "tlsCertFile": {
+      "default": "/run/secrets/vault-tls-cert",
+      "description": "TLS certificate file. TLS will be disabled unless this option is set",
+      "enum": null,
+      "example": "/path/to/your/cert.pem",
+      "readOnly": false,
+      "required": false,
+      "type": "string"
+    },
+    "tlsKeyFile": {
+      "default": "/run/secrets/vault-tls-key",
+      "description": "TLS private key file. TLS will be disabled unless this option is set",
+      "enum": null,
+      "example": "/path/to/your/key.pem",
+      "readOnly": false,
+      "required": false,
+      "type": "string"
+    }
+  }
+}

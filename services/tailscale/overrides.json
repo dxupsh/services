@@ -1,0 +1,13 @@
+{
+  "service": "tailscale",
+  "settings": {
+    "authKeyFile": {
+      "value": "/run/secrets/tailscale-auth-key",
+      "rationale": "Required for headless container operation"
+    },
+    "interfaceName": {
+      "value": "userspace-networking",
+      "rationale": "Scratch containers lack /dev/net/tun"
+    }
+  }
+}

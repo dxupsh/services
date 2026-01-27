@@ -1,0 +1,106 @@
+{
+  "service": "kafka",
+  "metadata": {
+    "nixpkgsRevision": "25.11pre-git"
+  },
+  "package": {
+    "name": "apache-kafka",
+    "version": "2.13-4.1.0"
+  },
+  "settings": {
+    "clusterId": {
+      "default": null,
+      "description": "KRaft mode ClusterId used for formatting log directories. Can be generated with `kafka-storage.sh random-uuid`\n",
+      "enum": null,
+      "example": null,
+      "readOnly": false,
+      "required": false,
+      "type": "string"
+    },
+    "configFiles.log4jProperties": {
+      "default": null,
+      "description": "Kafka log4j property configuration file path",
+      "enum": null,
+      "example": null,
+      "readOnly": false,
+      "required": false,
+      "type": "string"
+    },
+    "configFiles.serverProperties": {
+      "default": null,
+      "description": "Kafka server.properties configuration file path.\nDefaults to the rendered `settings`.\n",
+      "enum": null,
+      "example": null,
+      "readOnly": false,
+      "required": true,
+      "type": "string"
+    },
+    "enable": {
+      "default": false,
+      "description": "Whether to enable Apache Kafka event streaming broker.",
+      "enum": null,
+      "example": true,
+      "readOnly": false,
+      "required": false,
+      "type": "boolean"
+    },
+    "formatLogDirs": {
+      "default": false,
+      "description": "Whether to format log dirs in KRaft mode if all log dirs are\nunformatted, ie. they contain no meta.properties.\n",
+      "enum": null,
+      "example": null,
+      "readOnly": false,
+      "required": false,
+      "type": "boolean"
+    },
+    "formatLogDirsIgnoreFormatted": {
+      "default": false,
+      "description": "Whether to ignore already formatted log dirs when formatting log dirs,\ninstead of failing. Useful when replacing or adding disks.\n",
+      "enum": null,
+      "example": null,
+      "readOnly": false,
+      "required": false,
+      "type": "boolean"
+    },
+    "jre": {
+      "default": null,
+      "description": "The JRE with which to run Kafka",
+      "enum": null,
+      "example": null,
+      "readOnly": false,
+      "required": false,
+      "type": "string"
+    },
+    "jvmOptions": {
+      "default": [],
+      "description": "Extra command line options for the JVM running Kafka.",
+      "enum": null,
+      "example": [
+        "-Djava.net.preferIPv4Stack=true",
+        "-Dcom.sun.management.jmxremote",
+        "-Dcom.sun.management.jmxremote.local.only=true"
+      ],
+      "readOnly": false,
+      "required": false,
+      "type": "list"
+    },
+    "log4jProperties": {
+      "default": "log4j.rootLogger=INFO, stdout\n\nlog4j.appender.stdout=org.apache.log4j.ConsoleAppender\nlog4j.appender.stdout.layout=org.apache.log4j.PatternLayout\nlog4j.appender.stdout.layout.ConversionPattern=[%d] %p %m (%c)%n\n",
+      "description": "Kafka log4j property configuration.",
+      "enum": null,
+      "example": null,
+      "readOnly": false,
+      "required": false,
+      "type": "string"
+    },
+    "settings": {
+      "default": null,
+      "description": "[Kafka broker configuration](https://kafka.apache.org/documentation.html#brokerconfigs)\n{file}`server.properties`.\n\nNote that .properties files contain mappings from string to string.\nKeys with dots are NOT represented by nested attrs in these settings,\nbut instead as quoted strings (ie. `settings.\"broker.id\"`, NOT\n`settings.broker.id`).\n",
+      "enum": null,
+      "example": null,
+      "readOnly": false,
+      "required": true,
+      "type": "map"
+    }
+  }
+}

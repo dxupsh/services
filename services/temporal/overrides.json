@@ -1,0 +1,13 @@
+{
+  "service": "temporal",
+  "settings": {
+    "user": {
+      "value": "dxup",
+      "rationale": "Scratch images use a single embedded user"
+    },
+    "group": {
+      "value": "dxup",
+      "rationale": "Scratch images use a single embedded user"
+    }
+  }
+}

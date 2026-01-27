@@ -1,0 +1,41 @@
+{
+  "service": "redis",
+  "settings": {
+    "user": {
+      "value": "dxup",
+      "rationale": "Scratch images use a single embedded user"
+    },
+    "group": {
+      "value": "dxup",
+      "rationale": "Scratch images use a single embedded user"
+    },
+    "bind": {
+      "value": "0.0.0.0",
+      "rationale": "Must be reachable from other containers"
+    },
+    "port": {
+      "value": 6379,
+      "rationale": "Unix sockets don't work cross-container"
+    },
+    "unixSocket": {
+      "value": null,
+      "rationale": "Not usable across containers"
+    },
+    "requirePassFile": {
+      "value": "/run/secrets/redis-password",
+      "rationale": "No auth by default"
+    },
+    "logfile": {
+      "value": "",
+      "rationale": "Docker captures stdout"
+    },
+    "syslog": {
+      "value": false,
+      "rationale": "No syslog in scratch containers"
+    },
+    "appendOnly": {
+      "value": true,
+      "rationale": "Enable AOF for data durability with Docker volumes"
+    }
+  }
+}

@@ -1,0 +1,198 @@
+{
+  "service": "caddy",
+  "metadata": {
+    "nixpkgsRevision": "25.11pre-git"
+  },
+  "package": {
+    "name": "caddy",
+    "version": "2.10.2"
+  },
+  "settings": {
+    "acmeCA": {
+      "default": null,
+      "description": "::: {.note}\nSets the [`acme_ca` option](https://caddyserver.com/docs/caddyfile/options#acme-ca)\nin the global options block of the resulting Caddyfile.\n:::\n\nThe URL to the ACME CA's directory. It is strongly recommended to set\nthis to `https://acme-staging-v02.api.letsencrypt.org/directory` for\nLet's Encrypt's [staging endpoint](https://letsencrypt.org/docs/staging-environment/)\nwhile testing or in development.\n\nValue `null` should be prefered for production setups,\nas it omits the `acme_ca` option to enable\n[automatic issuer fallback](https://caddyserver.com/docs/automatic-https#issuer-fallback).\n",
+      "enum": null,
+      "example": "https://acme-v02.api.letsencrypt.org/directory",
+      "readOnly": false,
+      "required": false,
+      "type": "string"
+    },
+    "adapter": {
+      "default": "caddyfile",
+      "description": "Name of the config adapter to use.\nSee <https://caddyserver.com/docs/config-adapters>\nfor the full list.\n\nIf `null` is specified, the `--adapter` argument is omitted when\nstarting or restarting Caddy. Notably, this allows specification of a\nconfiguration file in Caddy's native JSON format, as long as the\nfilename does not start with `Caddyfile` (in which case the `caddyfile`\nadapter is implicitly enabled). See\n<https://caddyserver.com/docs/command-line#caddy-run> for details.\n\n::: {.note}\nAny value other than `null` or `caddyfile` is only valid when providing\nyour own `configFile`.\n:::\n",
+      "enum": null,
+      "example": "nginx",
+      "readOnly": false,
+      "required": false,
+      "type": "string"
+    },
+    "configFile": {
+      "default": "/nix/store/7wa8bfw5zz1z97mx0hqw9sv94jg66zyn-Caddyfile-formatted/Caddyfile",
+      "description": "Override the configuration file used by Caddy. By default,\nNixOS generates one automatically.\n\nThe configuration file is exposed at {file}`/etc/caddy/caddy_config`.\n",
+      "enum": null,
+      "example": "pkgs.writeText \"Caddyfile\" ''\n  example.com\n\n  root * /var/www/wordpress\n  php_fastcgi unix//run/php/php-version-fpm.sock\n  file_server\n'';\n",
+      "readOnly": false,
+      "required": false,
+      "type": "string"
+    },
+    "dataDir": {
+      "default": "/var/lib/caddy",
+      "description": "The data directory for caddy.\n\n::: {.note}\nIf left as the default value this directory will automatically be created\nbefore the Caddy server starts, otherwise you are responsible for ensuring\nthe directory exists with appropriate ownership and permissions.\n\nCaddy v2 replaced `CADDYPATH` with XDG directories.\nSee <https://caddyserver.com/docs/conventions#file-locations>.\n:::\n",
+      "enum": null,
+      "example": null,
+      "readOnly": false,
+      "required": false,
+      "type": "string"
+    },
+    "email": {
+      "default": null,
+      "description": "Your email address. Mainly used when creating an ACME account with your\nCA, and is highly recommended in case there are problems with your\ncertificates.\n",
+      "enum": null,
+      "example": null,
+      "readOnly": false,
+      "required": false,
+      "type": "string"
+    },
+    "enable": {
+      "default": false,
+      "description": "Whether to enable Caddy web server.",
+      "enum": null,
+      "example": true,
+      "readOnly": false,
+      "required": false,
+      "type": "boolean"
+    },
+    "enableReload": {
+      "default": true,
+      "description": "Reload Caddy instead of restarting it when configuration file changes.\n\nNote that enabling this option requires the [admin API](https://caddyserver.com/docs/caddyfile/options#admin)\nto not be turned off.\n\nIf you enable this option, consider setting [`grace_period`](https://caddyserver.com/docs/caddyfile/options#grace-period)\nto a non-infinite value in {option}`services.caddy.globalConfig`\nto prevent Caddy waiting for active connections to finish,\nwhich could delay the reload essentially indefinitely.\n",
+      "enum": null,
+      "example": null,
+      "readOnly": false,
+      "required": false,
+      "type": "boolean"
+    },
+    "environmentFile": {
+      "default": null,
+      "description": "Environment file as defined in {manpage}`systemd.exec(5)`.\n\nYou can use environment variables to pass secrets to the service without adding\nthem to the world-redable nix store.\n\n```\n# in configuration.nix\nservices.caddy.environmentFile = \"/run/secrets/caddy.env\";\nservices.caddy.globalConfig = ''\n  {\n    acme_ca https://acme.zerossl.com/v2/DV90\n    acme_eab {\n      key_id {$EAB_KEY_ID}\n      mac_key {$EAB_MAC_KEY}\n    }\n  }\n'';\n```\n\n```\n# in /run/secrets/caddy.env\nEAB_KEY_ID=secret\nEAB_MAC_KEY=secret\n```\n\nFind more examples\n[here](https://caddyserver.com/docs/caddyfile/concepts#environment-variables)\n",
+      "enum": null,
+      "example": "/run/secrets/caddy.env",
+      "readOnly": false,
+      "required": false,
+      "type": "any"
+    },
+    "extraConfig": {
+      "default": "",
+      "description": "Additional lines of configuration appended to this virtual host in the\nautomatically generated `Caddyfile`.\n",
+      "enum": null,
+      "example": null,
+      "readOnly": false,
+      "required": false,
+      "type": "string"
+    },
+    "globalConfig": {
+      "default": "",
+      "description": "Additional lines of configuration appended to the global config section\nof the `Caddyfile`.\n\nRefer to <https://caddyserver.com/docs/caddyfile/options#global-options>\nfor details on supported values.\n",
+      "enum": null,
+      "example": "debug\nservers {\n  protocol {\n    experimental_http3\n  }\n}\n",
+      "readOnly": false,
+      "required": false,
+      "type": "string"
+    },
+    "group": {
+      "default": "caddy",
+      "description": "Group under which caddy runs.\n\n::: {.note}\nIf left as the default value this group will automatically be created\non system activation, otherwise you are responsible for\nensuring the group exists before the Caddy service starts.\n:::\n",
+      "enum": null,
+      "example": null,
+      "readOnly": false,
+      "required": false,
+      "type": "string"
+    },
+    "hostName": {
+      "default": "‹name›",
+      "description": "Canonical hostname for the server.",
+      "enum": null,
+      "example": null,
+      "readOnly": false,
+      "required": false,
+      "type": "string"
+    },
+    "listenAddresses": {
+      "default": [],
+      "description": "A list of host interfaces to bind to for this virtual host.\n",
+      "enum": null,
+      "example": [
+        "127.0.0.1",
+        "::1"
+      ],
+      "readOnly": false,
+      "required": false,
+      "type": "list"
+    },
+    "logDir": {
+      "default": "/var/log/caddy",
+      "description": "Directory for storing Caddy access logs.\n\n::: {.note}\nIf left as the default value this directory will automatically be created\nbefore the Caddy server starts, otherwise the sysadmin is responsible for\nensuring the directory exists with appropriate ownership and permissions.\n:::\n",
+      "enum": null,
+      "example": null,
+      "readOnly": false,
+      "required": false,
+      "type": "string"
+    },
+    "logFormat": {
+      "default": "output file /var/log/caddy/access-‹name›.log\n",
+      "description": "Configuration for HTTP request logging (also known as access logs). See\n<https://caddyserver.com/docs/caddyfile/directives/log#log>\nfor details.\n",
+      "enum": null,
+      "example": "mkForce ''\n  output discard\n'';\n",
+      "readOnly": false,
+      "required": false,
+      "type": "string"
+    },
+    "resume": {
+      "default": false,
+      "description": "Use saved config, if any (and prefer over any specified configuration passed with `--config`).\n",
+      "enum": null,
+      "example": null,
+      "readOnly": false,
+      "required": false,
+      "type": "boolean"
+    },
+    "serverAliases": {
+      "default": [],
+      "description": "Additional names of virtual hosts served by this virtual host configuration.\n",
+      "enum": null,
+      "example": [
+        "www.example.org",
+        "example.org"
+      ],
+      "readOnly": false,
+      "required": false,
+      "type": "list"
+    },
+    "settings": {
+      "default": {},
+      "description": "Structured configuration for Caddy to generate a Caddy JSON configuration file.\nSee <https://caddyserver.com/docs/json/> for available options.\n\n::: {.warning}\nUsing a [Caddyfile](https://caddyserver.com/docs/caddyfile) instead of a JSON config is highly recommended by upstream.\nThere are only very few exception to this.\n\nPlease use a Caddyfile via {option}`services.caddy.configFile`, {option}`services.caddy.virtualHosts` or\n{option}`services.caddy.extraConfig` with {option}`services.caddy.globalConfig` instead.\n:::\n\n::: {.note}\nTakes presence over most `services.caddy.*` options, such as {option}`services.caddy.configFile` and {option}`services.caddy.virtualHosts`, if specified.\n:::\n",
+      "enum": null,
+      "example": null,
+      "readOnly": false,
+      "required": false,
+      "type": "any"
+    },
+    "useACMEHost": {
+      "default": null,
+      "description": "A host of an existing Let's Encrypt certificate to use.\nThis is mostly useful if you use DNS challenges but Caddy does not\ncurrently support your provider.\n\n*Note that this option does not create any certificates, nor\ndoes it add subdomains to existing ones – you will need to create them\nmanually using [](#opt-security.acme.certs).*\n",
+      "enum": null,
+      "example": null,
+      "readOnly": false,
+      "required": false,
+      "type": "string"
+    },
+    "user": {
+      "default": "caddy",
+      "description": "User account under which caddy runs.\n\n::: {.note}\nIf left as the default value this user will automatically be created\non system activation, otherwise you are responsible for\nensuring the user exists before the Caddy service starts.\n:::\n",
+      "enum": null,
+      "example": null,
+      "readOnly": false,
+      "required": false,
+      "type": "string"
+    }
+  }
+}

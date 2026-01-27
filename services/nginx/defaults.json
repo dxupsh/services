@@ -1,0 +1,880 @@
+{
+  "service": "nginx",
+  "metadata": {
+    "nixpkgsRevision": "25.11pre-git"
+  },
+  "package": {
+    "name": "nginx",
+    "version": "1.28.0"
+  },
+  "settings": {
+    "acmeFallbackHost": {
+      "default": null,
+      "description": "Host which to proxy requests to if ACME challenge is not found. Useful\nif you want multiple hosts to be able to verify the same domain name.\n\nWith this option, you could request certificates for the present domain\nwith an ACME client that is running on another host, which you would\nspecify here.\n",
+      "enum": null,
+      "example": null,
+      "readOnly": false,
+      "required": false,
+      "type": "string"
+    },
+    "acmeRoot": {
+      "default": "/var/lib/acme/acme-challenge",
+      "description": "Directory for the ACME challenge, which is **public**. Don't put certs or keys in here.\nSet to null to inherit from config.security.acme.\n",
+      "enum": null,
+      "example": null,
+      "readOnly": false,
+      "required": false,
+      "type": "string"
+    },
+    "addSSL": {
+      "default": false,
+      "description": "Whether to enable HTTPS in addition to plain HTTP. This will set defaults for\n`listen` to listen on all interfaces on the respective default\nports (80, 443).\n",
+      "enum": null,
+      "example": null,
+      "readOnly": false,
+      "required": false,
+      "type": "boolean"
+    },
+    "additionalModules": {
+      "default": [],
+      "description": "Additional [third-party nginx modules](https://www.nginx.com/resources/wiki/modules/)\nto install. Packaged modules are available in `pkgs.nginxModules`.\n",
+      "enum": null,
+      "example": "[ pkgs.nginxModules.echo ]",
+      "readOnly": false,
+      "required": false,
+      "type": "list"
+    },
+    "appendConfig": {
+      "default": "",
+      "description": "Configuration lines appended to the generated Nginx\nconfiguration file. Commonly used by different modules\nproviding http snippets. {option}`appendConfig`\ncan be specified more than once and its value will be\nconcatenated (contrary to {option}`config` which\ncan be set only once).\n",
+      "enum": null,
+      "example": null,
+      "readOnly": false,
+      "required": false,
+      "type": "string"
+    },
+    "appendHttpConfig": {
+      "default": "",
+      "description": "Configuration lines to be appended to the generated http block.\nThis is mutually exclusive with using config and httpConfig for\nspecifying the whole http block verbatim.\n",
+      "enum": null,
+      "example": null,
+      "readOnly": false,
+      "required": false,
+      "type": "string"
+    },
+    "basicAuth": {
+      "default": {},
+      "description": "Basic Auth protection for a vhost.\n\nWARNING: This is implemented to store the password in plain text in the\nNix store.\n",
+      "enum": null,
+      "example": "{\n  user = \"password\";\n};\n",
+      "readOnly": false,
+      "required": false,
+      "type": "map"
+    },
+    "basicAuthFile": {
+      "default": null,
+      "description": "Basic Auth password file for a vhost.\nCan be created by running {command}`nix-shell --packages apacheHttpd --run 'htpasswd -B -c FILENAME USERNAME'`.\n",
+      "enum": null,
+      "example": null,
+      "readOnly": false,
+      "required": false,
+      "type": "any"
+    },
+    "clientMaxBodySize": {
+      "default": "10m",
+      "description": "Set nginx global client_max_body_size.",
+      "enum": null,
+      "example": null,
+      "readOnly": false,
+      "required": false,
+      "type": "string"
+    },
+    "commonHttpConfig": {
+      "default": "",
+      "description": "With nginx you must provide common http context definitions before\nthey are used, e.g. log_format, resolver, etc. inside of server\nor location contexts. Use this attribute to set these definitions\nat the appropriate location.\n",
+      "enum": null,
+      "example": "resolver 127.0.0.1 valid=5s;\n\nlog_format myformat '$remote_addr - $remote_user [$time_local] '\n                    '\"$request\" $status $body_bytes_sent '\n                    '\"$http_referer\" \"$http_user_agent\"';\n",
+      "readOnly": false,
+      "required": false,
+      "type": "string"
+    },
+    "config": {
+      "default": "",
+      "description": "Verbatim {file}`nginx.conf` configuration.\nThis is mutually exclusive to any other config option for\n{file}`nginx.conf` except for\n- [](#opt-services.nginx.appendConfig)\n- [](#opt-services.nginx.httpConfig)\n- [](#opt-services.nginx.logError)\n\nIf additional verbatim config in addition to other options is needed,\n[](#opt-services.nginx.appendConfig) should be used instead.\n",
+      "enum": null,
+      "example": null,
+      "readOnly": false,
+      "required": false,
+      "type": "string"
+    },
+    "default": {
+      "default": false,
+      "description": "Makes this vhost the default.\n",
+      "enum": null,
+      "example": null,
+      "readOnly": false,
+      "required": false,
+      "type": "boolean"
+    },
+    "defaultHTTPListenPort": {
+      "default": 80,
+      "description": "If vhosts do not specify listen.port, use these ports for HTTP by default.\n",
+      "enum": null,
+      "example": 8080,
+      "readOnly": false,
+      "required": false,
+      "type": "integer"
+    },
+    "defaultListen": {
+      "default": [],
+      "description": "If vhosts do not specify listen, use these addresses by default.\nThis option takes precedence over {option}`defaultListenAddresses` and\nother listen-related defaults options.\n",
+      "enum": null,
+      "example": "[\n  { addr = \"10.0.0.12\"; proxyProtocol = true; ssl = true; }\n  { addr = \"0.0.0.0\"; }\n  { addr = \"[::0]\"; }\n]\n",
+      "readOnly": false,
+      "required": false,
+      "type": "list"
+    },
+    "defaultListenAddresses": {
+      "default": [
+        "0.0.0.0",
+        "[::0]"
+      ],
+      "description": "If vhosts do not specify listenAddresses, use these addresses by default.\nThis is akin to writing `defaultListen = [ { addr = \"0.0.0.0\" } ]`.\n",
+      "enum": null,
+      "example": "[ \"10.0.0.12\" \"[2002:a00:1::]\" ]",
+      "readOnly": false,
+      "required": false,
+      "type": "list"
+    },
+    "defaultMimeTypes": {
+      "default": "/nix/store/wcladrld431wwwprc7d8c20fdhwplxmj-mailcap-2.1.54/etc/nginx/mime.types",
+      "description": "Default MIME types for NGINX, as MIME types definitions from NGINX are very incomplete,\nwe use by default the ones bundled in the mailcap package, used by most of the other\nLinux distributions.\n",
+      "enum": null,
+      "example": "$''{pkgs.nginx}/conf/mime.types",
+      "readOnly": false,
+      "required": false,
+      "type": "string"
+    },
+    "defaultSSLListenPort": {
+      "default": 443,
+      "description": "If vhosts do not specify listen.port, use these ports for SSL by default.\n",
+      "enum": null,
+      "example": 8443,
+      "readOnly": false,
+      "required": false,
+      "type": "integer"
+    },
+    "enable": {
+      "default": false,
+      "description": "Whether to enable this proxy cache path entry.",
+      "enum": null,
+      "example": true,
+      "readOnly": false,
+      "required": false,
+      "type": "boolean"
+    },
+    "enableACME": {
+      "default": false,
+      "description": "Whether to ask Let's Encrypt to sign a certificate for this vhost.\nAlternately, you can use an existing certificate through {option}`useACMEHost`.\n",
+      "enum": null,
+      "example": null,
+      "readOnly": false,
+      "required": false,
+      "type": "boolean"
+    },
+    "enableQuicBPF": {
+      "default": false,
+      "description": "Enables routing of QUIC packets using eBPF. When enabled, this allows\nto support QUIC connection migration. The directive is only supported\non Linux 5.7+.\nNote that enabling this option will make nginx run with extended\ncapabilities that are usually limited to processes running as root\nnamely `CAP_SYS_ADMIN` and `CAP_NET_ADMIN`.\n",
+      "enum": null,
+      "example": null,
+      "readOnly": false,
+      "required": false,
+      "type": "boolean"
+    },
+    "enableReload": {
+      "default": false,
+      "description": "Reload nginx when configuration file changes (instead of restart).\nThe configuration file is exposed at {file}`/etc/nginx/nginx.conf`.\nSee also `systemd.services.*.restartIfChanged`.\n",
+      "enum": null,
+      "example": null,
+      "readOnly": false,
+      "required": false,
+      "type": "boolean"
+    },
+    "eventsConfig": {
+      "default": "",
+      "description": "Configuration lines to be set inside the events block.\n",
+      "enum": null,
+      "example": null,
+      "readOnly": false,
+      "required": false,
+      "type": "string"
+    },
+    "experimentalZstdSettings": {
+      "default": false,
+      "description": "Enable alpha quality zstd module with recommended settings.\nLearn more about compression in Zstd format [here](https://github.com/tokers/zstd-nginx-module).\n\nThis adds `pkgs.nginxModules.zstd` to `services.nginx.additionalModules`.\n",
+      "enum": null,
+      "example": null,
+      "readOnly": false,
+      "required": false,
+      "type": "boolean"
+    },
+    "extraConfig": {
+      "default": "",
+      "description": "These lines go to the end of the vhost verbatim.\n",
+      "enum": null,
+      "example": null,
+      "readOnly": false,
+      "required": false,
+      "type": "string"
+    },
+    "forceSSL": {
+      "default": false,
+      "description": "Whether to add a separate nginx server block that redirects (defaults\nto 301, configurable with `redirectCode`) all plain HTTP traffic to\nHTTPS. This will set defaults for `listen` to listen on all interfaces\non the respective default ports (80, 443), where the non-SSL listens\nare used for the redirect vhosts.\n",
+      "enum": null,
+      "example": null,
+      "readOnly": false,
+      "required": false,
+      "type": "boolean"
+    },
+    "gitweb.enable": {
+      "default": false,
+      "description": "If true, enable gitweb in nginx.\n",
+      "enum": null,
+      "example": null,
+      "readOnly": false,
+      "required": false,
+      "type": "boolean"
+    },
+    "gitweb.group": {
+      "default": "nginx",
+      "description": "Group that the CGI process will belong to. (Set to `config.services.gitolite.group` if you are using gitolite.)\n",
+      "enum": null,
+      "example": null,
+      "readOnly": false,
+      "required": false,
+      "type": "string"
+    },
+    "gitweb.location": {
+      "default": "/gitweb",
+      "description": "Location to serve gitweb on.\n",
+      "enum": null,
+      "example": null,
+      "readOnly": false,
+      "required": false,
+      "type": "string"
+    },
+    "gitweb.user": {
+      "default": "nginx",
+      "description": "Existing user that the CGI process will belong to. (Default almost surely will do.)\n",
+      "enum": null,
+      "example": null,
+      "readOnly": false,
+      "required": false,
+      "type": "string"
+    },
+    "gitweb.virtualHost": {
+      "default": "_",
+      "description": "VirtualHost to serve gitweb on. Default is catch-all.\n",
+      "enum": null,
+      "example": null,
+      "readOnly": false,
+      "required": false,
+      "type": "string"
+    },
+    "globalRedirect": {
+      "default": null,
+      "description": "If set, all requests for this host are redirected (defaults to 301,\nconfigurable with `redirectCode`) to the given hostname.\n",
+      "enum": null,
+      "example": "newserver.example.org",
+      "readOnly": false,
+      "required": false,
+      "type": "string"
+    },
+    "group": {
+      "default": "nginx",
+      "description": "Group account under which nginx runs.",
+      "enum": null,
+      "example": null,
+      "readOnly": false,
+      "required": false,
+      "type": "string"
+    },
+    "http2": {
+      "default": true,
+      "description": "Whether to enable the HTTP/2 protocol.\nNote that (as of writing) due to nginx's implementation, to disable\nHTTP/2 you have to disable it on all vhosts that use a given\nIP address / port.\nIf there is one server block configured to enable http2, then it is\nenabled for all server blocks on this IP.\nSee <https://stackoverflow.com/a/39466948/263061>.\n",
+      "enum": null,
+      "example": null,
+      "readOnly": false,
+      "required": false,
+      "type": "boolean"
+    },
+    "http3": {
+      "default": true,
+      "description": "Whether to enable the HTTP/3 protocol.\nThis requires activating the QUIC transport protocol\n`services.nginx.virtualHosts.<name>.quic = true;`.\nNote that HTTP/3 support is experimental and *not* yet recommended for production.\nRead more at <https://quic.nginx.org/>\nHTTP/3 availability must be manually advertised, preferably in each location block.\n",
+      "enum": null,
+      "example": null,
+      "readOnly": false,
+      "required": false,
+      "type": "boolean"
+    },
+    "http3_hq": {
+      "default": false,
+      "description": "Whether to enable the HTTP/0.9 protocol negotiation used in QUIC interoperability tests.\nThis requires activating the QUIC transport protocol\n`services.nginx.virtualHosts.<name>.quic = true;`.\nNote that special application protocol support is experimental and *not* yet recommended for production.\nRead more at <https://quic.nginx.org/>\n",
+      "enum": null,
+      "example": null,
+      "readOnly": false,
+      "required": false,
+      "type": "boolean"
+    },
+    "httpConfig": {
+      "default": "",
+      "description": "Configuration lines to be set inside the http block.\nThis is mutually exclusive with the structured configuration\nvia virtualHosts and the recommendedXyzSettings configuration\noptions. See appendHttpConfig for appending to the generated http block.\n",
+      "enum": null,
+      "example": null,
+      "readOnly": false,
+      "required": false,
+      "type": "string"
+    },
+    "inactive": {
+      "default": "10m",
+      "description": "Cached data that has not been accessed for the time specified by\nthe inactive parameter is removed from the cache, regardless of\nits freshness.\n",
+      "enum": null,
+      "example": "1d",
+      "readOnly": false,
+      "required": false,
+      "type": "string"
+    },
+    "kTLS": {
+      "default": false,
+      "description": "Whether to enable kTLS support.\nImplementing TLS in the kernel (kTLS) improves performance by significantly\nreducing the need for copying operations between user space and the kernel.\nRequired Nginx version 1.21.4 or later.\n",
+      "enum": null,
+      "example": null,
+      "readOnly": false,
+      "required": false,
+      "type": "boolean"
+    },
+    "keysZoneName": {
+      "default": "cache",
+      "description": "Set name to shared memory zone.",
+      "enum": null,
+      "example": "my_cache",
+      "readOnly": false,
+      "required": false,
+      "type": "string"
+    },
+    "keysZoneSize": {
+      "default": "10m",
+      "description": "Set size to shared memory zone.",
+      "enum": null,
+      "example": "32m",
+      "readOnly": false,
+      "required": false,
+      "type": "string"
+    },
+    "levels": {
+      "default": "1:2",
+      "description": "The levels parameter defines structure of subdirectories in cache: from\n1 to 3, each level accepts values 1 or 2. Can be used any combination of\n1 and 2 in these formats: x, x:x and x:x:x.\n",
+      "enum": null,
+      "example": "1:2:2",
+      "readOnly": false,
+      "required": false,
+      "type": "string"
+    },
+    "listen": {
+      "default": [],
+      "description": "Listen addresses and ports for this virtual host.\nIPv6 addresses must be enclosed in square brackets.\nNote: this option overrides `addSSL`\nand `onlySSL`.\n\nIf you only want to set the addresses manually and not\nthe ports, take a look at `listenAddresses`.\n",
+      "enum": null,
+      "example": [
+        {
+          "addr": "195.154.1.1",
+          "port": 443,
+          "ssl": true
+        },
+        {
+          "addr": "192.154.1.1",
+          "port": 80
+        },
+        {
+          "addr": "unix:/var/run/nginx.sock"
+        }
+      ],
+      "readOnly": false,
+      "required": false,
+      "type": "list"
+    },
+    "listenAddresses": {
+      "default": [],
+      "description": "Listen addresses for this virtual host.\nCompared to `listen` this only sets the addresses\nand the ports are chosen automatically.\n\nNote: This option overrides `enableIPv6`\n",
+      "enum": null,
+      "example": [
+        "127.0.0.1",
+        "[::1]"
+      ],
+      "readOnly": false,
+      "required": false,
+      "type": "list"
+    },
+    "locations": {
+      "default": {},
+      "description": "Declarative location config",
+      "enum": null,
+      "example": "{\n  \"/\" = {\n    proxyPass = \"http://localhost:3000\";\n  };\n};\n",
+      "readOnly": false,
+      "required": false,
+      "type": "map"
+    },
+    "logError": {
+      "default": "stderr",
+      "description": "Configures logging.\nThe first parameter defines a file that will store the log. The\nspecial value stderr selects the standard error file. Logging to\nsyslog can be configured by specifying the “syslog:” prefix.\nThe second parameter determines the level of logging, and can be\none of the following: debug, info, notice, warn, error, crit,\nalert, or emerg. Log levels above are listed in the order of\nincreasing severity. Setting a certain log level will cause all\nmessages of the specified and more severe log levels to be logged.\nIf this parameter is omitted then error is used.\n",
+      "enum": null,
+      "example": null,
+      "readOnly": false,
+      "required": false,
+      "type": "string"
+    },
+    "mapHashBucketSize": {
+      "default": null,
+      "description": "Sets the bucket size for the map variables hash tables. Default\nvalue depends on the processor’s cache line size.\n\nRefer to [the nginx docs on hashes](https://nginx.org/en/docs/hash.html)\nfor more information.\n",
+      "enum": null,
+      "example": null,
+      "readOnly": false,
+      "required": false,
+      "type": "any"
+    },
+    "mapHashMaxSize": {
+      "default": null,
+      "description": "Sets the maximum size of the map variables hash tables.\n",
+      "enum": null,
+      "example": null,
+      "readOnly": false,
+      "required": false,
+      "type": "any"
+    },
+    "maxSize": {
+      "default": "1g",
+      "description": "Set maximum cache size",
+      "enum": null,
+      "example": "2048m",
+      "readOnly": false,
+      "required": false,
+      "type": "string"
+    },
+    "onlySSL": {
+      "default": false,
+      "description": "Whether to enable HTTPS and reject plain HTTP connections. This will set\ndefaults for `listen` to listen on all interfaces on port 443.\n",
+      "enum": null,
+      "example": null,
+      "readOnly": false,
+      "required": false,
+      "type": "boolean"
+    },
+    "preStart": {
+      "default": "",
+      "description": "Shell commands executed before the service's nginx is started.\n",
+      "enum": null,
+      "example": null,
+      "readOnly": false,
+      "required": false,
+      "type": "string"
+    },
+    "prependConfig": {
+      "default": "",
+      "description": "Configuration lines prepended to the generated Nginx\nconfiguration file. Can for example be used to load modules.\n{option}`prependConfig` can be specified more than once\nand its value will be concatenated (contrary to {option}`config`\nwhich can be set only once).\n",
+      "enum": null,
+      "example": null,
+      "readOnly": false,
+      "required": false,
+      "type": "string"
+    },
+    "proxyResolveWhileRunning": {
+      "default": false,
+      "description": "Resolves domains of proxyPass targets at runtime and not only at startup.\nThis can be used as a workaround if nginx fails to start because of not-yet-working DNS.\n\n:::{.warn}\n`services.nginx.resolver` must be set for this option to work.\n:::\n",
+      "enum": null,
+      "example": null,
+      "readOnly": false,
+      "required": false,
+      "type": "boolean"
+    },
+    "proxyTimeout": {
+      "default": "60s",
+      "description": "Change the proxy related timeouts in recommendedProxySettings.\n",
+      "enum": null,
+      "example": "20s",
+      "readOnly": false,
+      "required": false,
+      "type": "string"
+    },
+    "quic": {
+      "default": false,
+      "description": "Whether to enable the QUIC transport protocol.\nNote that QUIC support is experimental and\n*not* yet recommended for production.\nRead more at <https://quic.nginx.org/>\n",
+      "enum": null,
+      "example": null,
+      "readOnly": false,
+      "required": false,
+      "type": "boolean"
+    },
+    "recommendedBrotliSettings": {
+      "default": false,
+      "description": "Enable recommended brotli settings.\nLearn more about compression in Brotli format [here](https://github.com/google/ngx_brotli/).\n\nThis adds `pkgs.nginxModules.brotli` to `services.nginx.additionalModules`.\n",
+      "enum": null,
+      "example": null,
+      "readOnly": false,
+      "required": false,
+      "type": "boolean"
+    },
+    "recommendedGzipSettings": {
+      "default": false,
+      "description": "Enable recommended gzip settings.\nLearn more about compression in Gzip format [here](https://docs.nginx.com/nginx/admin-guide/web-server/compression/).\n",
+      "enum": null,
+      "example": null,
+      "readOnly": false,
+      "required": false,
+      "type": "boolean"
+    },
+    "recommendedOptimisation": {
+      "default": false,
+      "description": "Enable recommended optimisation settings.\n",
+      "enum": null,
+      "example": null,
+      "readOnly": false,
+      "required": false,
+      "type": "boolean"
+    },
+    "recommendedProxySettings": {
+      "default": false,
+      "description": "Whether to enable recommended proxy settings if a vhost does not specify the option manually.\n",
+      "enum": null,
+      "example": null,
+      "readOnly": false,
+      "required": false,
+      "type": "boolean"
+    },
+    "recommendedTlsSettings": {
+      "default": false,
+      "description": "Enable recommended TLS settings.\n",
+      "enum": null,
+      "example": null,
+      "readOnly": false,
+      "required": false,
+      "type": "boolean"
+    },
+    "recommendedUwsgiSettings": {
+      "default": false,
+      "description": "Whether to enable recommended uwsgi settings if a vhost does not specify the option manually.\n",
+      "enum": null,
+      "example": null,
+      "readOnly": false,
+      "required": false,
+      "type": "boolean"
+    },
+    "redirectCode": {
+      "default": 301,
+      "description": "HTTP status used by `globalRedirect` and `forceSSL`. Possible usecases\ninclude temporary (302, 307) redirects, keeping the request method and\nbody (307, 308), or explicitly resetting the method to GET (303).\nSee <https://developer.mozilla.org/en-US/docs/Web/HTTP/Redirections>.\n",
+      "enum": null,
+      "example": 308,
+      "readOnly": false,
+      "required": false,
+      "type": "integer"
+    },
+    "rejectSSL": {
+      "default": false,
+      "description": "Whether to listen for and reject all HTTPS connections to this vhost. Useful in\n[default](#opt-services.nginx.virtualHosts._name_.default)\nserver blocks to avoid serving the certificate for another vhost. Uses the\n`ssl_reject_handshake` directive available in nginx versions\n1.19.4 and above.\n",
+      "enum": null,
+      "example": null,
+      "readOnly": false,
+      "required": false,
+      "type": "boolean"
+    },
+    "resolver": {
+      "default": {},
+      "description": "Configures name servers used to resolve names of upstream servers into addresses\n",
+      "enum": null,
+      "example": null,
+      "readOnly": false,
+      "required": false,
+      "type": "map"
+    },
+    "reuseport": {
+      "default": false,
+      "description": "Create an individual listening socket .\nIt is required to specify only once on one of the hosts.\n",
+      "enum": null,
+      "example": null,
+      "readOnly": false,
+      "required": false,
+      "type": "boolean"
+    },
+    "root": {
+      "default": null,
+      "description": "The path of the web root directory.\n",
+      "enum": null,
+      "example": "/data/webserver/docs",
+      "readOnly": false,
+      "required": false,
+      "type": "any"
+    },
+    "serverAliases": {
+      "default": [],
+      "description": "Additional names of virtual hosts served by this virtual host configuration.\n",
+      "enum": null,
+      "example": [
+        "www.example.org",
+        "example.org"
+      ],
+      "readOnly": false,
+      "required": false,
+      "type": "list"
+    },
+    "serverName": {
+      "default": null,
+      "description": "Name of this virtual host. Defaults to attribute name in virtualHosts.\n",
+      "enum": null,
+      "example": "example.org",
+      "readOnly": false,
+      "required": false,
+      "type": "string"
+    },
+    "serverNamesHashBucketSize": {
+      "default": null,
+      "description": "Sets the bucket size for the server names hash tables. Default\nvalue depends on the processor’s cache line size.\n",
+      "enum": null,
+      "example": null,
+      "readOnly": false,
+      "required": false,
+      "type": "any"
+    },
+    "serverNamesHashMaxSize": {
+      "default": null,
+      "description": "Sets the maximum size of the server names hash tables.\n",
+      "enum": null,
+      "example": null,
+      "readOnly": false,
+      "required": false,
+      "type": "any"
+    },
+    "serverTokens": {
+      "default": false,
+      "description": "Show nginx version in headers and error pages.",
+      "enum": null,
+      "example": null,
+      "readOnly": false,
+      "required": false,
+      "type": "boolean"
+    },
+    "servers": {
+      "default": {},
+      "description": "Defines the address and other parameters of the upstream servers.\nSee [the documentation](https://nginx.org/en/docs/http/ngx_http_upstream_module.html#server)\nfor the available parameters.\n",
+      "enum": null,
+      "example": "see [](#opt-services.nginx.upstreams)",
+      "readOnly": false,
+      "required": false,
+      "type": "map"
+    },
+    "sslCertificate": {
+      "default": null,
+      "description": "Path to server SSL certificate.",
+      "enum": null,
+      "example": "/var/host.cert",
+      "readOnly": false,
+      "required": true,
+      "type": "string"
+    },
+    "sslCertificateKey": {
+      "default": null,
+      "description": "Path to server SSL certificate key.",
+      "enum": null,
+      "example": "/var/host.key",
+      "readOnly": false,
+      "required": true,
+      "type": "string"
+    },
+    "sslCiphers": {
+      "default": "ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:DHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES256-GCM-SHA384:DHE-RSA-CHACHA20-POLY1305",
+      "description": "Ciphers to choose from when negotiating TLS handshakes.",
+      "enum": null,
+      "example": null,
+      "readOnly": false,
+      "required": false,
+      "type": "string"
+    },
+    "sslDhparam": {
+      "default": null,
+      "description": "Path to DH parameters file.",
+      "enum": null,
+      "example": "/path/to/dhparams.pem",
+      "readOnly": false,
+      "required": false,
+      "type": "any"
+    },
+    "sslProtocols": {
+      "default": "TLSv1.2 TLSv1.3",
+      "description": "Allowed TLS protocol versions.",
+      "enum": null,
+      "example": "TLSv1 TLSv1.1 TLSv1.2 TLSv1.3",
+      "readOnly": false,
+      "required": false,
+      "type": "string"
+    },
+    "sslTrustedCertificate": {
+      "default": null,
+      "description": "Path to root SSL certificate for stapling and client certificates.",
+      "enum": null,
+      "example": "\"${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt\"",
+      "readOnly": false,
+      "required": false,
+      "type": "any"
+    },
+    "sso.configuration": {
+      "default": {},
+      "description": "nginx-sso configuration\n([documentation](https://github.com/Luzifer/nginx-sso/wiki/Main-Configuration))\nas a Nix attribute set.\n\nOptions containing secret data should be set to an attribute set\nwith the singleton attribute `_secret` - a string value set to the path\nto the file containing the secret value which should be used in the\nconfiguration.\n",
+      "enum": null,
+      "example": "{\n  listen = { addr = \"127.0.0.1\"; port = 8080; };\n\n  providers.token.tokens = {\n    myuser = {\n      _secret = \"/path/to/secret/token.txt\"; # File content should be the secret token\n    };\n  };\n\n  acl = {\n    rule_sets = [\n      {\n        rules = [ { field = \"x-application\"; equals = \"MyApp\"; } ];\n        allow = [ \"myuser\" ];\n      }\n    ];\n  };\n}\n",
+      "readOnly": false,
+      "required": false,
+      "type": "any"
+    },
+    "sso.enable": {
+      "default": false,
+      "description": "Whether to enable nginx-sso service.",
+      "enum": null,
+      "example": true,
+      "readOnly": false,
+      "required": false,
+      "type": "boolean"
+    },
+    "statusPage": {
+      "default": false,
+      "description": "Enable status page reachable from localhost on http://127.0.0.1/nginx_status.\n",
+      "enum": null,
+      "example": null,
+      "readOnly": false,
+      "required": false,
+      "type": "boolean"
+    },
+    "streamConfig": {
+      "default": "",
+      "description": "Configuration lines to be set inside the stream block.\n",
+      "enum": null,
+      "example": "server {\n  listen 127.0.0.1:53 udp reuseport;\n  proxy_timeout 20s;\n  proxy_pass 192.168.0.1:53535;\n}\n",
+      "readOnly": false,
+      "required": false,
+      "type": "string"
+    },
+    "tailscaleAuth.enable": {
+      "default": false,
+      "description": "Whether to enable tailscale.nginx-auth, to authenticate nginx users via tailscale.",
+      "enum": null,
+      "example": true,
+      "readOnly": false,
+      "required": false,
+      "type": "boolean"
+    },
+    "tailscaleAuth.expectedTailnet": {
+      "default": "",
+      "description": "If you want to prevent node sharing from allowing users to access services\nacross tailnets, declare your expected tailnets domain here.\n",
+      "enum": null,
+      "example": "tailnet012345.ts.net",
+      "readOnly": false,
+      "required": false,
+      "type": "string"
+    },
+    "tailscaleAuth.group": {
+      "default": null,
+      "description": "Alias of {option}`services.tailscaleAuth.group`.",
+      "enum": null,
+      "example": null,
+      "readOnly": false,
+      "required": true,
+      "type": "string"
+    },
+    "tailscaleAuth.socketPath": {
+      "default": null,
+      "description": "Alias of {option}`services.tailscaleAuth.socketPath`.",
+      "enum": null,
+      "example": null,
+      "readOnly": false,
+      "required": true,
+      "type": "string"
+    },
+    "tailscaleAuth.user": {
+      "default": null,
+      "description": "Alias of {option}`services.tailscaleAuth.user`.",
+      "enum": null,
+      "example": null,
+      "readOnly": false,
+      "required": true,
+      "type": "string"
+    },
+    "tailscaleAuth.virtualHosts": {
+      "default": [],
+      "description": "A list of nginx virtual hosts to put behind tailscale.nginx-auth\n",
+      "enum": null,
+      "example": null,
+      "readOnly": false,
+      "required": false,
+      "type": "list"
+    },
+    "typesHashMaxSize": {
+      "default": 2688,
+      "description": "Sets the maximum size of the types hash tables (`types_hash_max_size`).\nIt is recommended that the minimum size possible size is used.\nIf {option}`recommendedOptimisation` is disabled, nginx would otherwise\nfail to start since the mailmap `mime.types` database has more entries\nthan the nginx default value 1024.\n",
+      "enum": null,
+      "example": null,
+      "readOnly": false,
+      "required": false,
+      "type": "integer"
+    },
+    "useACMEHost": {
+      "default": null,
+      "description": "A host of an existing Let's Encrypt certificate to use.\nThis is useful if you have many subdomains and want to avoid hitting the\n[rate limit](https://letsencrypt.org/docs/rate-limits).\nAlternately, you can generate a certificate through {option}`enableACME`.\n*Note that this option does not create any certificates, nor it does add subdomains to existing ones – you will need to create them manually using [](#opt-security.acme.certs).*\n",
+      "enum": null,
+      "example": null,
+      "readOnly": false,
+      "required": false,
+      "type": "string"
+    },
+    "useTempPath": {
+      "default": false,
+      "description": "Nginx first writes files that are destined for the cache to a temporary\nstorage area, and the use_temp_path=off directive instructs Nginx to\nwrite them to the same directories where they will be cached. Recommended\nthat you set this parameter to off to avoid unnecessary copying of data\nbetween file systems.\n",
+      "enum": null,
+      "example": true,
+      "readOnly": false,
+      "required": false,
+      "type": "boolean"
+    },
+    "user": {
+      "default": "nginx",
+      "description": "User account under which nginx runs.",
+      "enum": null,
+      "example": null,
+      "readOnly": false,
+      "required": false,
+      "type": "string"
+    },
+    "uwsgiResolveWhileRunning": {
+      "default": false,
+      "description": "Resolves domains of uwsgi targets at runtime\nand not only at start, you have to set\nservices.nginx.resolver, too.\n",
+      "enum": null,
+      "example": null,
+      "readOnly": false,
+      "required": false,
+      "type": "boolean"
+    },
+    "uwsgiTimeout": {
+      "default": "60s",
+      "description": "Change the uwsgi related timeouts in recommendedUwsgiSettings.\n",
+      "enum": null,
+      "example": "20s",
+      "readOnly": false,
+      "required": false,
+      "type": "string"
+    },
+    "validateConfigFile": {
+      "default": true,
+      "description": "Whether to enable validating configuration with pkgs.writeNginxConfig.",
+      "enum": null,
+      "example": true,
+      "readOnly": false,
+      "required": false,
+      "type": "boolean"
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "service": "opensearch",
+  "settings": {
+    "user": {
+      "value": "dxup",
+      "rationale": "Scratch images use a single embedded user"
+    },
+    "group": {
+      "value": "dxup",
+      "rationale": "Scratch images use a single embedded user"
+    },
+    "settings": {
+      "value": {
+        "network.host": "0.0.0.0"
+      },
+      "rationale": "No bind address or security config exposed in defaults; configure network and security plugin"
+    }
+  }
+}

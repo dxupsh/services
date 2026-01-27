@@ -1,0 +1,13 @@
+{
+  "service": "mailpit",
+  "settings": {
+    "listen": {
+      "value": "0.0.0.0:8025",
+      "rationale": "Web UI must be reachable"
+    },
+    "smtp": {
+      "value": "0.0.0.0:1025",
+      "rationale": "SMTP must be reachable from app containers"
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "service": "nats",
+  "settings": {
+    "user": {
+      "value": "dxup",
+      "rationale": "Scratch images use a single embedded user"
+    },
+    "group": {
+      "value": "dxup",
+      "rationale": "Scratch images use a single embedded user"
+    },
+    "settings": {
+      "value": {
+        "host": "0.0.0.0"
+      },
+      "rationale": "No auth or explicit bind in defaults; make bind address explicit"
+    }
+  }
+}

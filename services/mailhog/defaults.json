@@ -1,0 +1,77 @@
+{
+  "service": "mailhog",
+  "metadata": {
+    "nixpkgsRevision": "25.11pre-git"
+  },
+  "package": null,
+  "settings": {
+    "apiPort": {
+      "default": 8025,
+      "description": "Port on which the API endpoint will listen.",
+      "enum": null,
+      "example": null,
+      "readOnly": false,
+      "required": false,
+      "type": "integer"
+    },
+    "enable": {
+      "default": false,
+      "description": "Whether to enable MailHog, web and API based SMTP testing.",
+      "enum": null,
+      "example": true,
+      "readOnly": false,
+      "required": false,
+      "type": "boolean"
+    },
+    "extraArgs": {
+      "default": [],
+      "description": "List of additional arguments to pass to the MailHog process.",
+      "enum": null,
+      "example": null,
+      "readOnly": false,
+      "required": false,
+      "type": "list"
+    },
+    "setSendmail": {
+      "default": true,
+      "description": "Whether to enable set the system sendmail to mailhogs's.",
+      "enum": null,
+      "example": true,
+      "readOnly": false,
+      "required": false,
+      "type": "boolean"
+    },
+    "smtpPort": {
+      "default": 1025,
+      "description": "Port on which the SMTP endpoint will listen.",
+      "enum": null,
+      "example": null,
+      "readOnly": false,
+      "required": false,
+      "type": "integer"
+    },
+    "storage": {
+      "default": "memory",
+      "description": "Store mails on disk or in memory.",
+      "enum": {
+        "values": [
+          "maildir",
+          "memory"
+        ]
+      },
+      "example": null,
+      "readOnly": false,
+      "required": false,
+      "type": "string"
+    },
+    "uiPort": {
+      "default": 8025,
+      "description": "Port on which the HTTP UI will listen.",
+      "enum": null,
+      "example": null,
+      "readOnly": false,
+      "required": false,
+      "type": "integer"
+    }
+  }
+}

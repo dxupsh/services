@@ -1,0 +1,25 @@
+{
+  "service": "cassandra",
+  "settings": {
+    "user": {
+      "value": "dxup",
+      "rationale": "Scratch images use a single embedded user"
+    },
+    "group": {
+      "value": "dxup",
+      "rationale": "Scratch images use a single embedded user"
+    },
+    "rpcAddress": {
+      "value": "0.0.0.0",
+      "rationale": "Client connections must work cross-container"
+    },
+    "clusterName": {
+      "value": null,
+      "rationale": "Default 'Test Cluster' is inappropriate; set a unique name to prevent accidental cross-cluster joins"
+    },
+    "seedAddresses": {
+      "value": null,
+      "rationale": "Default ['127.0.0.1'] is unreachable cross-container; set to Swarm service hostnames"
+    }
+  }
+}

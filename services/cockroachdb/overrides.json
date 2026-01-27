@@ -1,0 +1,25 @@
+{
+  "service": "cockroachdb",
+  "settings": {
+    "user": {
+      "value": "dxup",
+      "rationale": "Scratch images use a single embedded user"
+    },
+    "group": {
+      "value": "dxup",
+      "rationale": "Scratch images use a single embedded user"
+    },
+    "listen.address": {
+      "value": "0.0.0.0",
+      "rationale": "Must be reachable for intra-cluster communication"
+    },
+    "http.address": {
+      "value": "0.0.0.0",
+      "rationale": "Admin UI must be reachable"
+    },
+    "certsDir": {
+      "value": "/run/secrets/cockroachdb-certs",
+      "rationale": "TLS required when insecure=false (default)"
+    }
+  }
+}

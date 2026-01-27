@@ -1,0 +1,17 @@
+{
+  "service": "caddy",
+  "settings": {
+    "user": {
+      "value": "dxup",
+      "rationale": "Scratch images use a single embedded user"
+    },
+    "group": {
+      "value": "dxup",
+      "rationale": "Scratch images use a single embedded user"
+    },
+    "logFormat": {
+      "value": "output stdout",
+      "rationale": "Docker captures stdout"
+    }
+  }
+}

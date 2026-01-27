@@ -1,0 +1,13 @@
+{
+  "service": "memcached",
+  "settings": {
+    "user": {
+      "value": "dxup",
+      "rationale": "Scratch images use a single embedded user"
+    },
+    "listen": {
+      "value": "0.0.0.0",
+      "rationale": "Must be reachable from other containers"
+    }
+  }
+}

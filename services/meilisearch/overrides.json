@@ -1,0 +1,13 @@
+{
+  "service": "meilisearch",
+  "settings": {
+    "listenAddress": {
+      "value": "0.0.0.0",
+      "rationale": "Must be reachable from other containers"
+    },
+    "masterKeyFile": {
+      "value": "/run/secrets/meilisearch-master-key",
+      "rationale": "Without master key, all routes are unauthenticated"
+    }
+  }
+}

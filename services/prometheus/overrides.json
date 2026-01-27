@@ -1,0 +1,9 @@
+{
+  "service": "prometheus",
+  "settings": {
+    "webConfigFile": {
+      "value": "/run/secrets/prometheus-web-config",
+      "rationale": "No authentication by default; configure basic auth or TLS"
+    }
+  }
+}
