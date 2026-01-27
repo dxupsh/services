@@ -1,4 +1,4 @@
-name: Build and Release Services
+name: Publish Services
 
 on:
   schedule:
