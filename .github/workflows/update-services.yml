@@ -34,7 +34,7 @@ jobs:
         run: bash scripts/merge-settings.sh
 
       - name: Validate settings
-        run: bash scripts/validate-settings.sh
+        run: nix develop -c bash scripts/validate-settings.sh
 
       - name: Commit changes
         run: |
