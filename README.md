@@ -7,7 +7,7 @@ See `services.txt` for the list of supported services.
 ## Build
 
 ```bash
-bash scripts/build.sh
+nix develop -c scripts/build.sh
 ```
 
 ## License
