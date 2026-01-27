@@ -1,0 +1,114 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://dxup.sh/schemas/service-settings.json",
+  "title": "Service Settings",
+  "description": "Schema for services/**/settings.json files describing NixOS service configurations.",
+  "type": "object",
+  "required": ["service", "metadata", "package", "settings"],
+  "additionalProperties": false,
+  "properties": {
+    "service": {
+      "type": "string",
+      "minLength": 1,
+      "description": "The name of the service."
+    },
+    "metadata": {
+      "type": "object",
+      "required": ["nixpkgsRevision"],
+      "additionalProperties": false,
+      "description": "Extraction metadata.",
+      "properties": {
+        "nixpkgsRevision": {
+          "type": "string",
+          "minLength": 1,
+          "description": "The nixpkgs revision used during extraction."
+        }
+      }
+    },
+    "package": {
+      "oneOf": [
+        { "type": "null" },
+        {
+          "type": "object",
+          "required": ["name", "version"],
+          "additionalProperties": false,
+          "properties": {
+            "name": {
+              "type": "string",
+              "minLength": 1,
+              "description": "The Nix package name."
+            },
+            "version": {
+              "type": "string",
+              "minLength": 1,
+              "description": "The package version."
+            }
+          }
+        }
+      ],
+      "description": "The Nix package providing the service, or null when not applicable."
+    },
+    "settings": {
+      "type": "object",
+      "description": "Map of setting names to their definitions. Keys may contain dots (e.g. \"database.host\").",
+      "additionalProperties": false,
+      "patternProperties": {
+        "^[a-zA-Z][a-zA-Z0-9._-]*$": {
+          "$ref": "#/definitions/settingDefinition"
+        }
+      }
+    }
+  },
+  "definitions": {
+    "settingDefinition": {
+      "type": "object",
+      "required": ["default", "description", "enum", "example", "readOnly", "required", "type"],
+      "additionalProperties": false,
+      "description": "A single service setting definition.",
+      "properties": {
+        "default": {
+          "description": "The default value for this setting. Can be any JSON type including null."
+        },
+        "description": {
+          "type": "string",
+          "description": "Human-readable description of the setting."
+        },
+        "enum": {
+          "oneOf": [
+            { "type": "null" },
+            {
+              "type": "object",
+              "required": ["values"],
+              "additionalProperties": false,
+              "properties": {
+                "values": {
+                  "type": "array",
+                  "items": { "type": "string" },
+                  "minItems": 1,
+                  "description": "Allowed values for this setting."
+                }
+              }
+            }
+          ],
+          "description": "Enumeration constraint, or null when unconstrained."
+        },
+        "example": {
+          "description": "An example value for this setting. Can be any JSON type including null."
+        },
+        "readOnly": {
+          "type": "boolean",
+          "description": "Whether the setting is computed/read-only and cannot be set by the user."
+        },
+        "required": {
+          "type": "boolean",
+          "description": "Whether the setting must be explicitly configured."
+        },
+        "type": {
+          "type": "string",
+          "enum": ["string", "boolean", "integer", "list", "map", "any"],
+          "description": "The logical type of the setting value."
+        }
+      }
+    }
+  }
+}

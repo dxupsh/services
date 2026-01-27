@@ -30,6 +30,7 @@
 
             # Utilities
             jq # JSON processor
+            yajsv # JSON schema validator
           ];
 
           shellHook = ''

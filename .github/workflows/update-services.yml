@@ -33,6 +33,9 @@ jobs:
       - name: Merge settings
         run: bash scripts/merge-settings.sh
 
+      - name: Validate settings
+        run: bash scripts/validate-settings.sh
+
       - name: Commit changes
         run: |
           git config user.name "github-actions[bot]"

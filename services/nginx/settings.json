@@ -1,7 +1,6 @@
 {
   "service": "nginx",
   "metadata": {
-    "extractedAt": "2026-01-27T09:30:42Z",
     "nixpkgsRevision": "25.11pre-git"
   },
   "package": {
