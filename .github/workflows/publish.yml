@@ -1,0 +1,60 @@
+name: Build and Release Services
+
+on:
+  schedule:
+    - cron: "0 1 * * *" # Daily at 1 AM UTC
+  workflow_dispatch: # Allow manual trigger
+
+concurrency:
+  group: build-release
+  cancel-in-progress: false
+
+permissions: {}
+
+jobs:
+  build-and-release:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Check for changes
+        if: github.event_name == 'schedule'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const { execSync } = require('child_process');
+            const shortSha = execSync('git rev-parse --short HEAD').toString().trim();
+            try {
+              const { data: release } = await github.rest.repos.getLatestRelease({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+              });
+              const latestSha = release.tag_name.split('-').pop();
+              if (latestSha === shortSha) {
+                core.setFailed(`No changes since last release (${release.tag_name}), skipping.`);
+              }
+            } catch {
+              core.info('No existing releases found, proceeding.');
+            }
+
+      - name: Set build metadata
+        id: meta
+        run: |
+          echo "date=$(date -u +%Y-%m-%d)" >> "$GITHUB_OUTPUT"
+          echo "sha=$(git rev-parse --short HEAD)" >> "$GITHUB_OUTPUT"
+
+      - name: Package services
+        run: bash scripts/package-settings.sh
+
+      - name: Create release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ steps.meta.outputs.date }}-${{ steps.meta.outputs.sha }}
+          name: Services ${{ steps.meta.outputs.date }}
+          body: Automated build on ${{ steps.meta.outputs.date }} from commit ${{ steps.meta.outputs.sha }}.
+          make_latest: true
+          files: services.tar.gz
