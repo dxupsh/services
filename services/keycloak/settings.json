@@ -5,7 +5,7 @@
   },
   "package": {
     "name": "keycloak",
-    "version": "26.5.1"
+    "version": "26.5.2"
   },
   "settings": {
     "database.caCert": {
@@ -28,7 +28,7 @@
     },
     "database.host": {
       "default": "postgres",
-      "description": "Hostname of the database to connect to.\n",
+      "description": "Hostname of the database to connect to.\n\nFor PostgreSQL, this can also be a path to a Unix socket\ndirectory (e.g., `/run/postgresql`) to use peer authentication.\nThis requires adding `junixsocket-common` and `junixsocket-native-common`\nto [](#opt-services.keycloak.plugins).\n",
       "enum": null,
       "example": null,
       "readOnly": false,
@@ -46,12 +46,12 @@
     },
     "database.passwordFile": {
       "default": "/run/secrets/keycloak-db-password",
-      "description": "The path to a file containing the database password.\n",
+      "description": "The path to a file containing the database password.\n\nNot required when using Unix socket authentication (peer auth)\nby setting `host` to a socket path like `/run/postgresql`.\n",
       "enum": null,
       "example": "/run/keys/db_password",
       "readOnly": false,
-      "required": true,
-      "type": "string"
+      "required": false,
+      "type": "any"
     },
     "database.port": {
       "default": 5432,
@@ -79,7 +79,7 @@
     },
     "database.useSSL": {
       "default": true,
-      "description": "Whether the database connection should be secured by SSL /\nTLS.\n",
+      "description": "Whether the database connection should be secured by SSL / TLS.\n\nDefaults to `false` for localhost and Unix socket connections.\n",
       "enum": null,
       "example": null,
       "readOnly": false,
