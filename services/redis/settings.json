@@ -1,11 +1,15 @@
 {
+  "version": "1",
   "service": "redis",
   "metadata": {
-    "nixpkgsRevision": "25.11pre-git"
+    "sources": {
+      "nixpkgs": "github:nixos/nixpkgs/nixos-25.11"
+    }
   },
   "package": {
     "name": "redis",
-    "version": "8.2.3"
+    "version": "8.2.3",
+    "source": "nixpkgs"
   },
   "settings": {
     "appendFsync": {
@@ -238,5 +242,51 @@
       "required": false,
       "type": "boolean"
     }
+  },
+  "app": {
+    "packages": {
+      "redli": "redli"
+    },
+    "vars": {
+      "{{ upper .ServiceName }}_HOST": "{{ .SwarmServiceName }}",
+      "{{ upper .ServiceName }}_PORT": "{{ .Settings.port }}",
+      "{{ upper .ServiceName }}_USER": "{{ .Settings.user }}",
+      "{{ upper .ServiceName }}_DATABASE": "{{ .Settings.database }}",
+      "{{ upper .ServiceName }}_PASSWORD_FILE": "{{ .Settings.passwordFile }}"
+    },
+    "scripts": {
+      "{{ .ServiceName }}-cli": "#!/bin/sh\nREDISCLI_AUTH=\"$(cat \"${{ upper .ServiceName }}_PASSWORD_FILE\")\" exec redli -h \"${{ upper .ServiceName }}_HOST\" -p \"${{ upper .ServiceName }}_PORT\" -n \"${{ upper .ServiceName }}_DATABASE\" --user \"${{ upper .ServiceName }}_USER\" \"$@\""
+    }
+  },
+  "secrets": {
+    "{{ .ServiceName }}-password": {
+      "description": "Redis authentication password"
+    }
+  },
+  "configFiles": {
+    "/etc/redis/redis.conf": "bind {{ .Settings.bind }}\nport {{ .Settings.port }}\ndir {{ .DataVolume.mountPath }}\nprotected-mode no\ndatabases {{ .Settings.databases }}\nmaxclients {{ .Settings.maxclients }}\nloglevel {{ .Settings.logLevel }}\nappendonly {{ if .Settings.appendOnly }}yes{{ else }}no{{ end }}\nappendfsync {{ .Settings.appendFsync }}\n",
+    "/etc/redis/users.acl": "user {{ .Settings.user }} on >{{ readFile .Settings.passwordFile }} +@all ~*\n"
+  },
+  "cmd": [
+    "redis-server",
+    "/etc/redis/redis.conf",
+    "--aclfile",
+    "/etc/redis/users.acl"
+  ],
+  "dataVolume": {
+    "name": "{{ .AppName }}-{{ .ServiceName }}-data",
+    "mountPath": "/var/lib/redis",
+    "optional": true,
+    "description": "Redis data directory (optional, for RDB/AOF persistence)"
+  },
+  "healthCheck": {
+    "command": [
+      "sh",
+      "-c",
+      "REDISCLI_AUTH=\"$(cat {{ .Settings.passwordFile }})\" redis-cli --user {{ .Settings.user }} PING"
+    ],
+    "interval": "1s",
+    "timeout": "5s",
+    "retries": 30
   }
 }

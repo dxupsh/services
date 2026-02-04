@@ -4,9 +4,14 @@
   "title": "Service Settings",
   "description": "Schema for services/**/settings.json files describing NixOS service configurations.",
   "type": "object",
-  "required": ["service", "metadata", "package", "settings"],
+  "required": ["version", "service", "metadata", "package", "settings"],
   "additionalProperties": false,
   "properties": {
+    "version": {
+      "type": "string",
+      "const": "1",
+      "description": "Schema version identifier."
+    },
     "service": {
       "type": "string",
       "minLength": 1,
@@ -14,14 +19,22 @@
     },
     "metadata": {
       "type": "object",
-      "required": ["nixpkgsRevision"],
+      "required": ["sources"],
       "additionalProperties": false,
       "description": "Extraction metadata.",
       "properties": {
-        "nixpkgsRevision": {
-          "type": "string",
-          "minLength": 1,
-          "description": "The nixpkgs revision used during extraction."
+        "sources": {
+          "type": "object",
+          "required": ["nixpkgs"],
+          "additionalProperties": false,
+          "description": "Source references for package origins.",
+          "properties": {
+            "nixpkgs": {
+              "type": "string",
+              "pattern": "^github:nixos/nixpkgs/nixos-[0-9]+\\.[0-9]+$",
+              "description": "The nixpkgs flake reference used during extraction."
+            }
+          }
         }
       }
     },
@@ -30,7 +43,7 @@
         { "type": "null" },
         {
           "type": "object",
-          "required": ["name", "version"],
+          "required": ["name", "version", "source"],
           "additionalProperties": false,
           "properties": {
             "name": {
@@ -42,6 +55,11 @@
               "type": "string",
               "minLength": 1,
               "description": "The package version."
+            },
+            "source": {
+              "type": "string",
+              "enum": ["nixpkgs"],
+              "description": "The source repository for this package."
             }
           }
         }
@@ -55,6 +73,107 @@
       "patternProperties": {
         "^[a-zA-Z][a-zA-Z0-9._-]*$": {
           "$ref": "#/definitions/settingDefinition"
+        }
+      }
+    },
+    "app": {
+      "type": "object",
+      "description": "Application configuration for dependent services.",
+      "additionalProperties": false,
+      "properties": {
+        "packages": {
+          "type": "object",
+          "description": "Additional Nix packages to include.",
+          "additionalProperties": { "type": "string" }
+        },
+        "vars": {
+          "type": "object",
+          "description": "Environment variables to expose to dependent apps.",
+          "additionalProperties": { "type": "string" }
+        },
+        "scripts": {
+          "type": "object",
+          "description": "Helper scripts to generate.",
+          "additionalProperties": { "type": "string" }
+        }
+      }
+    },
+    "secrets": {
+      "type": "object",
+      "description": "Secret definitions required by the service.",
+      "additionalProperties": {
+        "type": "object",
+        "required": ["description"],
+        "additionalProperties": false,
+        "properties": {
+          "description": {
+            "type": "string",
+            "description": "Human-readable description of the secret."
+          }
+        }
+      }
+    },
+    "configFiles": {
+      "type": "object",
+      "description": "Configuration files to generate, keyed by path.",
+      "additionalProperties": { "type": "string" }
+    },
+    "cmd": {
+      "type": "array",
+      "description": "Command and arguments to start the service.",
+      "items": { "type": "string" },
+      "minItems": 1
+    },
+    "dataVolume": {
+      "type": "object",
+      "description": "Data volume configuration for persistence.",
+      "required": ["name", "mountPath"],
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Volume name template."
+        },
+        "mountPath": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Path where the volume is mounted."
+        },
+        "optional": {
+          "type": "boolean",
+          "description": "Whether the volume is optional."
+        },
+        "description": {
+          "type": "string",
+          "description": "Human-readable description of the volume purpose."
+        }
+      }
+    },
+    "healthCheck": {
+      "type": "object",
+      "description": "Health check configuration.",
+      "required": ["command"],
+      "additionalProperties": false,
+      "properties": {
+        "command": {
+          "type": "array",
+          "description": "Command to execute for health check.",
+          "items": { "type": "string" },
+          "minItems": 1
+        },
+        "interval": {
+          "type": "string",
+          "description": "Time between health checks (e.g., '30s', '1m')."
+        },
+        "timeout": {
+          "type": "string",
+          "description": "Maximum time to wait for health check (e.g., '5s')."
+        },
+        "retries": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Number of consecutive failures before unhealthy."
         }
       }
     }
