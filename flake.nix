@@ -21,11 +21,8 @@
       {
         packages.default = pkgs.runCommand "dxup-services-recipes" { } ''
           mkdir -p $out
-          for dir in ${self}/services/*/; do
-            name=$(basename "$dir")
-            if [ -f "$dir/settings.json" ]; then
-              cp "$dir/settings.json" "$out/$name.json"
-            fi
+          for f in ${self}/release/*.json; do
+            [ -f "$f" ] && cp "$f" "$out/"
           done
         '';
         devShells.default = pkgs.mkShell {

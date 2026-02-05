@@ -7,7 +7,7 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ROOT_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
 SERVICES_FILE="${ROOT_DIR}/services.txt"
-OUTPUT_DIR="${ROOT_DIR}/services"
+OUTPUT_DIR="${ROOT_DIR}/definitions"
 NIX_FILE="${SCRIPT_DIR}/extract-options.nix"
 
 echo "=== NixOS Service Options Extractor ==="

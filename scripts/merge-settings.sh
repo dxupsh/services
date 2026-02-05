@@ -8,7 +8,10 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ROOT_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
-SERVICES_DIR="${ROOT_DIR}/services"
+DEFINITIONS_DIR="${ROOT_DIR}/definitions"
+RELEASE_DIR="${ROOT_DIR}/release"
+
+mkdir -p "${RELEASE_DIR}"
 
 echo "=== Merge Service Settings ==="
 echo ""
@@ -18,14 +21,14 @@ SUCCESS=0
 SKIPPED=0
 FAILED=0
 
-for service_dir in "${SERVICES_DIR}"/*/; do
+for service_dir in "${DEFINITIONS_DIR}"/*/; do
     service="$(basename "$service_dir")"
     TOTAL=$((TOTAL + 1))
 
     DEFAULTS="${service_dir}defaults.json"
     OVERRIDES="${service_dir}overrides.json"
     APP="${service_dir}app.json"
-    OUTPUT="${service_dir}settings.json"
+    OUTPUT="${RELEASE_DIR}/${service}.json"
 
     printf "[%2d] Merging %-30s ... " "$TOTAL" "$service"
 
@@ -104,4 +107,4 @@ echo "Success: ${SUCCESS}"
 echo "Skipped: ${SKIPPED}"
 echo "Failed:  ${FAILED}"
 echo ""
-echo "Output files in: ${SERVICES_DIR}/"
+echo "Output files in: ${RELEASE_DIR}/"

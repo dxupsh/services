@@ -27,7 +27,7 @@
       "type": "string"
     },
     "argsFile": {
-      "default": "/nix/store/ipd2y4r6b6bqbvjn0xy965lnq7k5j1xk-couchdb-3.5.0/etc/vm.args",
+      "default": null,
       "description": "vm.args configuration. Overrides Couchdb's Erlang VM parameters file.\n",
       "enum": null,
       "example": null,

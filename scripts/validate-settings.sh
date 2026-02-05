@@ -12,7 +12,7 @@ if [ ! -f "$SCHEMA" ]; then
   exit 1
 fi
 
-files=("$ROOT_DIR"/services/*/settings.json)
+files=("$ROOT_DIR"/release/*.json)
 
 if [ ${#files[@]} -eq 0 ]; then
   echo "error: no settings.json files found" >&2
