@@ -1,0 +1,22 @@
+name: Release
+
+on:
+  schedule:
+    - cron: "30 0 * * *" # Daily at 00:30 AM UTC
+  workflow_dispatch: # Allow manual trigger
+
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+jobs:
+  update-services:
+    uses: ./.github/workflows/update-services.yml
+    permissions:
+      contents: write
+
+  publish:
+    needs: update-services
+    uses: ./.github/workflows/publish.yml
+    permissions:
+      contents: write

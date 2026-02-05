@@ -1,8 +1,7 @@
 name: Publish Services
 
 on:
-  schedule:
-    - cron: "0 1 * * *" # Daily at 1 AM UTC
+  workflow_call: # Called by release.yml
   workflow_dispatch: # Allow manual trigger
 
 concurrency:
