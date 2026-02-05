@@ -22,8 +22,8 @@
       "rationale": "Not usable across containers"
     },
     "requirePassFile": {
-      "value": "/run/secrets/redis-password",
-      "rationale": "No auth by default"
+      "value": "/run/secrets/{{ .ServiceName }}-password",
+      "rationale": "Path to file containing the password"
     },
     "logfile": {
       "value": "",

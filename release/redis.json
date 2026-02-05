@@ -141,7 +141,7 @@
       "type": "string"
     },
     "requirePassFile": {
-      "default": "/run/secrets/redis-password",
+      "default": "/run/secrets/{{ .ServiceName }}-password",
       "description": "File with password for the database.",
       "enum": null,
       "example": "/run/keys/redis-password",
@@ -252,7 +252,7 @@
       "{{ upper .ServiceName }}_PORT": "{{ .Settings.port }}",
       "{{ upper .ServiceName }}_USER": "{{ .Settings.user }}",
       "{{ upper .ServiceName }}_DATABASE": "{{ .Settings.database }}",
-      "{{ upper .ServiceName }}_PASSWORD_FILE": "{{ .Settings.passwordFile }}"
+      "{{ upper .ServiceName }}_PASSWORD_FILE": "{{ .Settings.requirePassFile }}"
     },
     "scripts": {
       "{{ .ServiceName }}-cli": "#!/bin/sh\nREDISCLI_AUTH=\"$(cat \"${{ upper .ServiceName }}_PASSWORD_FILE\")\" exec redli -h \"${{ upper .ServiceName }}_HOST\" -p \"${{ upper .ServiceName }}_PORT\" -n \"${{ upper .ServiceName }}_DATABASE\" --user \"${{ upper .ServiceName }}_USER\" \"$@\""
@@ -265,7 +265,7 @@
   },
   "configFiles": {
     "/etc/redis/redis.conf": "bind {{ .Settings.bind }}\nport {{ .Settings.port }}\ndir {{ .DataVolume.mountPath }}\nprotected-mode no\ndatabases {{ .Settings.databases }}\nmaxclients {{ .Settings.maxclients }}\nloglevel {{ .Settings.logLevel }}\nappendonly {{ if .Settings.appendOnly }}yes{{ else }}no{{ end }}\nappendfsync {{ .Settings.appendFsync }}\n",
-    "/etc/redis/users.acl": "user {{ .Settings.user }} on >{{ readFile .Settings.passwordFile }} +@all ~*\n"
+    "/etc/redis/users.acl": "user {{ .Settings.user }} on >{{ readFile .Settings.requirePassFile }} +@all ~*\n"
   },
   "cmd": [
     "redis-server",
@@ -283,7 +283,7 @@
     "command": [
       "sh",
       "-c",
-      "REDISCLI_AUTH=\"$(cat {{ .Settings.passwordFile }})\" redis-cli --user {{ .Settings.user }} PING"
+      "REDISCLI_AUTH=\"$(cat {{ .Settings.requirePassFile }})\" redis-cli --user {{ .Settings.user }} PING"
     ],
     "interval": "1s",
     "timeout": "5s",
