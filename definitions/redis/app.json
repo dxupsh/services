@@ -13,7 +13,7 @@
       "{{ upper .ServiceName }}_PASSWORD_FILE": "{{ .Settings.requirePassFile }}"
     },
     "scripts": {
-      "{{ .ServiceName }}-cli": "#!/bin/sh\nREDISCLI_AUTH=\"$(cat \"${{ upper .ServiceName }}_PASSWORD_FILE\")\" exec redli -h \"${{ upper .ServiceName }}_HOST\" -p \"${{ upper .ServiceName }}_PORT\" -n \"${{ upper .ServiceName }}_DATABASE\" --user \"${{ upper .ServiceName }}_USER\" \"$@\""
+      "{{ .ServiceName }}-cli": "#!/bin/sh\nPASS=\"$(cat \"${{ upper .ServiceName }}_PASSWORD_FILE\")\"\nDB=\"${{{ upper .ServiceName }}_DATABASE:-0}\"\ncase \"$DB\" in *[!0-9]*) DB=0 ;; esac\nredli -u \"redis://${{{ upper .ServiceName }}_USER}:${PASS}@${{{ upper .ServiceName }}_HOST}:${{{ upper .ServiceName }}_PORT}/${DB}\" \"$@\"; echo"
     }
   },
 
