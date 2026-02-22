@@ -5,7 +5,7 @@
   },
   "package": {
     "name": "influxdb",
-    "version": "1.12.0"
+    "version": "1.12.2"
   },
   "settings": {
     "dataDir": {
