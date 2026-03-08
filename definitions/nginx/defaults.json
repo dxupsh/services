@@ -147,7 +147,7 @@
       "type": "list"
     },
     "defaultMimeTypes": {
-      "default": "/nix/store/201vrplk83igh37rr5igb2yp3iv15l4d-mailcap-2.1.54/etc/nginx/mime.types",
+      "default": "/nix/store/n0grhlzdjjqsxh8kd3j1xji6hdl32ayg-mailcap-2.1.54/etc/nginx/mime.types",
       "description": "Default MIME types for NGINX, as MIME types definitions from NGINX are very incomplete,\nwe use by default the ones bundled in the mailcap package, used by most of the other\nLinux distributions.\n",
       "enum": null,
       "example": "$''{pkgs.nginx}/conf/mime.types",
