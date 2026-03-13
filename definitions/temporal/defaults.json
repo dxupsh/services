@@ -5,7 +5,7 @@
   },
   "package": {
     "name": "temporal",
-    "version": "1.29.3"
+    "version": "1.29.4"
   },
   "settings": {
     "dataDir": {
