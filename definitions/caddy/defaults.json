@@ -27,7 +27,7 @@
       "type": "string"
     },
     "configFile": {
-      "default": "/nix/store/s5ff0paj7zg9wcvs8gvj0iaxwfvhx7d6-Caddyfile-formatted/Caddyfile",
+      "default": "/nix/store/4w6ipq2hax12rbv17zhs7xqkb2ji7wpw-Caddyfile-formatted/Caddyfile",
       "description": "Override the configuration file used by Caddy. By default,\nNixOS generates one automatically.\n\nThe configuration file is exposed at {file}`/etc/caddy/caddy_config`.\n",
       "enum": null,
       "example": "pkgs.writeText \"Caddyfile\" ''\n  example.com\n\n  root * /var/www/wordpress\n  php_fastcgi unix//run/php/php-version-fpm.sock\n  file_server\n'';\n",
