@@ -8,7 +8,7 @@
   },
   "package": {
     "name": "redis",
-    "version": "8.2.3",
+    "version": "8.6.3",
     "source": "nixpkgs"
   },
   "settings": {
