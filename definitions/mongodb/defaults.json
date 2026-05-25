@@ -5,7 +5,7 @@
   },
   "package": {
     "name": "mongodb",
-    "version": "7.0.31"
+    "version": "7.0.34"
   },
   "settings": {
     "bind_ip": {
