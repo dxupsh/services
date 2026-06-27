@@ -226,6 +226,15 @@
       "required": true,
       "type": "string"
     },
+    "secureSuperUserByDefault": {
+      "default": true,
+      "description": "Whether to automatically secure the root@localhost user with auth_socket authentication.\n\n::: {.note}\nWhen enabled (default), the module will ensure root@localhost uses socket authentication,\npreventing any local user from connecting as root without proper credentials.\n:::\n",
+      "enum": null,
+      "example": null,
+      "readOnly": false,
+      "required": false,
+      "type": "boolean"
+    },
     "user": {
       "default": "mysql",
       "description": "User account under which MySQL runs.\n\n::: {.note}\nIf left as the default value this user will automatically be created\non system activation, otherwise you are responsible for\nensuring the user exists before the MySQL service starts.\n:::\n",
